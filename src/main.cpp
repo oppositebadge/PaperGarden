@@ -42,6 +42,13 @@ void UpdateDrawFrame(void){
     // something like game->Update()
     Globals::pixel_render->BeginDraw();
     // something like game->Draw()
+
+    // for example
+        DrawTexturePro(Globals::textures["image"],
+        Rectangle{0,0,64,64},
+        Rectangle{Globals::pixel_render->GetCameraCenter().x, Globals::pixel_render->GetCameraCenter().y, 500,500},
+        Vector2{0,0}, 0, WHITE);
+
     Globals::pixel_render->EndDraw();
 
     BeginDrawing();
