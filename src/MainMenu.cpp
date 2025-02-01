@@ -1,8 +1,8 @@
 #include "MainMenu.hpp"
 #include <raymath.h>
 #include <string>
-#include <iostream>
-#include "Constants.hpp"
+//#include <iostream>
+//#include "Constants.hpp"
 
 MainMenu::MainMenu(Vector2 center, const std::string& title, const std::string& play_text, const std::string& exit_text) : 
     main_menu_center(center),
@@ -39,15 +39,11 @@ MainMenu::MainMenu(Vector2 center, const std::string& title, const std::string& 
 }
 
 void MainMenu::Update() {
-    if (!IsWindowReady()) return;
-
     play_button.Update(MOUSE_BUTTON_LEFT);
     exit_button.Update(MOUSE_BUTTON_LEFT);
 }
 
 void MainMenu::Draw() {
-    if (!IsWindowReady()) return;
-
     // Draw solid colored background
     DrawRectangle(0, 0, GetScreenWidth(), GetScreenHeight(), RAYWHITE);
 
@@ -74,7 +70,7 @@ void MainMenu::Draw() {
     DrawText(
         play_button_text.c_str(),
         main_menu_center.x - play_text_size.x/2,
-        main_menu_center.y + 60/2 - play_text_size.y/2,
+        main_menu_center.y + 60.f/2 - play_text_size.y/2,
         button_font_size,
         WHITE
     );
@@ -84,7 +80,7 @@ void MainMenu::Draw() {
     DrawText(
         exit_button_text.c_str(),
         main_menu_center.x - exit_text_size.x/2,
-        main_menu_center.y + 80 + 60/2 - exit_text_size.y/2,
+        main_menu_center.y + 80 + 60.f/2 - exit_text_size.y/2,
         button_font_size,
         WHITE
     );

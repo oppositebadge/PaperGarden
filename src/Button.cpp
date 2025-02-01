@@ -105,7 +105,6 @@ void Button::BindOnReleased(void (*func)()){
     on_released = func;
 }
 
-
 void Button::BindOnPressed(std::function<void()> func) {
     on_pressed = func;
 }
@@ -113,7 +112,6 @@ void Button::BindOnPressed(std::function<void()> func) {
 void Button::BindOnReleased(std::function<void()> func) {
     on_released = func;
 }
-
 
 bool Button::IsDown(){
     return down;

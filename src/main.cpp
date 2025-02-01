@@ -51,6 +51,7 @@ void UpdateDrawFrame(void){
     BeginDrawing();
         ClearBackground(BLACK);
         Globals::pixel_render->DrawResult();
+        DrawFPS(100, 100);
     EndDrawing();
 }
 
@@ -64,10 +65,6 @@ bool Init(){
     }
 
     SetExitKey(KEY_NULL);  // Disable default ESC key exit behavior
-    
-    // Wait a frame to ensure window is ready
-    BeginDrawing();
-    EndDrawing();
 
     // Initialize render buffer
     Globals::pixel_render->SetResolutions(
@@ -79,10 +76,6 @@ bool Init(){
 
     // Load textures before creating game instance
     Globals::LoadTextures();
-
-    // Wait another frame to ensure textures are loaded
-    BeginDrawing();
-    EndDrawing();
 
     // Create game instance after window and textures are ready
     game = std::make_unique<Game>();

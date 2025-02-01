@@ -1,26 +1,27 @@
 #pragma once
 
-#include "Globals.hpp"
 #include "Tangram.hpp"
 #include "MainMenu.hpp"
 
 #include <raylib.h>
 #include <memory>
+#include <vector>
 
-enum class GameState {
+enum GameState {
     MENU,
     PLAYING,
     PAUSED
 };
-#include <vector>
 
 class Game {
 private:
     GameState current_state;
-    std::unique_ptr<MainMenu> main_menu;
-    std::unique_ptr<MainMenu> pause_menu;
-    std::unique_ptr<Tangram> tangram;
+    std::unique_ptr<MainMenu> main_menu = nullptr;
+    std::unique_ptr<MainMenu> pause_menu = nullptr;
+    std::unique_ptr<Tangram> tangram = nullptr;
     bool should_close = false;
+
+    int grip_id = -1;
 
     std::vector<Vector2> ref = {
         {1163.09, 854.849},

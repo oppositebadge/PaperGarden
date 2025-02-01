@@ -4,7 +4,6 @@
 #include <raylib.h>
 #include <functional>
 
-
 class MainMenu {
     private:
         Vector2 main_menu_center;

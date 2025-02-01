@@ -1,21 +1,9 @@
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.20)
 
 # Set the project name, which will be used for the output directory
 project(PaperGarden LANGUAGES CXX VERSION 0.1)
 
-# Set build type if not specified
-if(NOT CMAKE_BUILD_TYPE)
-    set(CMAKE_BUILD_TYPE Debug)
-endif()
-
-# Set C++ standard
-set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-
-# Add compiler flags
-if(CMAKE_BUILD_TYPE STREQUAL "Debug")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g")
-endif()
+set(CMAKE_CXX_STANDARD 20)  # or another C++ standard like 14, 17, 20, etc.
 
 #find_package(Threads REQUIRED)
 find_package(raylib 5.0 REQUIRED)
@@ -61,6 +49,3 @@ add_custom_command(
     ${ASSETS_DIR} ${BUILD_OUTPUT_DIR}/assets
     COMMENT "Copying assets to build output directory"
 )
-
-# Print build type
-message(STATUS "Build type: ${CMAKE_BUILD_TYPE}")

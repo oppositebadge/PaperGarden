@@ -294,25 +294,30 @@ public:
         }
         Vector2 center = Vector2Scale(sum, 1.f/points.size());
 
-        int size = 1024;
+        float size = 1024;
 
         RenderTexture2D render = LoadRenderTexture(size, size);
         Camera2D cam = {0};
         cam.target = center;
         cam.offset = (Vector2){size/2.f, size/2.f}; // Offset should be the screen center
-        cam.rotation = 180.0f;
+        cam.rotation = 0.0f;
         cam.zoom = 1.0f; // Ensure zoom is set correctly
         
         BeginTextureMode(render);
-        BeginMode2D(cam);
-
-        ClearBackground(BLANK);
-        Draw();
-
-        EndMode2D();
+            BeginMode2D(cam);
+                ClearBackground(BLANK);
+                Draw();
+            EndMode2D();
         EndTextureMode();
 
-        Image image = LoadImageFromTexture(render.texture);
+        RenderTexture2D flipped_render = LoadRenderTexture(size, size);
+
+        BeginTextureMode(flipped_render);
+            ClearBackground(BLANK);
+            DrawTextureRec(render.texture, Rectangle{0,0,size,size}, Vector2{}, WHITE);
+        EndTextureMode();
+
+        Image image = LoadImageFromTexture(flipped_render.texture);
         ExportImage(image, TextFormat("reference_%i.png", picture_count));
         picture_count++;
     }
