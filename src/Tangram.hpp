@@ -53,7 +53,7 @@ struct Tile {
     }
 
     void Move(Vector2 delta_m){
-        for (auto trig : trigs){
+        for (auto&& trig : trigs){
             for (int i = 0; i < trig.points.size(); i++){
                 trig.points[i] = Vector2Add(trig.points[i], delta_m);
             }
@@ -138,9 +138,6 @@ public:
 
     }
 
-    void Update(){
-    }
-
     void Draw(){
         for (auto tile : tiles){
             tile.Draw();
@@ -148,4 +145,44 @@ public:
     }
 
     std::vector<Tile> GetTiles() { return tiles; }
+
+    void RotateTilesAtPoint(Vector2 point, float rotation, bool only_one_tile=false){
+        for (auto&& tile : tiles){
+            bool overlaps = false;
+            
+            for (auto&& trig : tile.trigs){
+                if (CheckCollisionPointTriangle(point, trig.points[0], trig.points[1], trig.points[2])){
+                    overlaps = true;
+                    break;
+                }
+            }
+
+            if (overlaps){
+                tile.Rotate(rotation);
+                if (only_one_tile){
+                    break;
+                }
+            }
+        }
+    }
+
+    void MoveTilesAtPoint(Vector2 point, Vector2 move, bool only_one_tile=false){
+        for (auto&& tile : tiles){
+            bool overlaps = false;
+            
+            for (auto&& trig : tile.trigs){
+                if (CheckCollisionPointTriangle(point, trig.points[0], trig.points[1], trig.points[2])){
+                    overlaps = true;
+                    break;
+                }
+            }
+
+            if (overlaps){
+                tile.Move(move);
+                if (only_one_tile){
+                    break;
+                }
+            }
+        }
+    }
 };
