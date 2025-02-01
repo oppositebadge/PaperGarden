@@ -248,26 +248,35 @@ public:
         for (auto point : reference){
             ref_sum = Vector2Add(ref_sum, point);
         }
-        Vector2 ref_center = Vector2Scale(ref_sum, 1.f/reference.size()/3);
+        Vector2 ref_center = Vector2Scale(ref_sum, 1.f/reference.size());
         
         std::vector<Vector2> new_reference = {};
         for (auto point : reference){
             new_reference.push_back(Vector2Subtract(point, ref_center));
         }
 
-
-
         Vector2 sum = {0,0};
         auto points = GetAllPoints();
         for (auto point : points){
             sum = Vector2Add(sum, point);
         }
-        Vector2 center = Vector2Scale(sum, 1.f/points.size()/3);
+        Vector2 center = Vector2Scale(sum, 1.f/points.size());
         
         std::vector<Vector2> new_points = {};
         for (auto point : points){
             new_points.push_back(Vector2Subtract(point, center));
         }
+
+        /*
+        for (auto point : new_reference){
+            DrawCircleV(Vector2Add(point, Vector2{300,200}), 10, BLACK);
+        }
+
+        for (auto point : new_points){
+            DrawCircleV(Vector2Add(point, Vector2{300,200}), 10, RED);
+        }
+        */
+
 
         return RatePointsSimilarity(new_points, new_reference);
     }
