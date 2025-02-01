@@ -27,7 +27,7 @@ int main(){
         emscripten_set_main_loop(UpdateDrawFrame, 60, 1);
     #else
         SetTargetFPS(60);
-        while (!WindowShouldClose())
+        while (!WindowShouldClose() && game && !game->ShouldClose())
         {
             UpdateDrawFrame();
         }
@@ -55,20 +55,21 @@ void UpdateDrawFrame(void){
 }
 
 bool Init(){
+    // Initialize window first
     InitWindow(AppConstants::ScreenWidth, AppConstants::ScreenHeight, AppConstants::WindowTitle.c_str());
-    //SetWindowState(FLAG_WINDOW_RESIZABLE);
-
-    InitAudioDevice();
-    SetAudioStreamBufferSizeDefault(4096);
-
-    if (!IsWindowReady()){
+    
+    if (!IsWindowReady()) {
         std::cerr << "Failed to initialize raylib window";
         return false;
     }
 
-    SetWorkingDirectoryToLocal();
+    SetExitKey(KEY_NULL);  // Disable default ESC key exit behavior
+    
+    // Wait a frame to ensure window is ready
+    BeginDrawing();
+    EndDrawing();
 
-    // init render buffer
+    // Initialize render buffer
     Globals::pixel_render->SetResolutions(
         AppConstants::RenderWidth,
         AppConstants::RenderHeight,
@@ -76,8 +77,14 @@ bool Init(){
         GetScreenHeight()
     );
 
+    // Load textures before creating game instance
     Globals::LoadTextures();
 
+    // Wait another frame to ensure textures are loaded
+    BeginDrawing();
+    EndDrawing();
+
+    // Create game instance after window and textures are ready
     game = std::make_unique<Game>();
 
     return true;

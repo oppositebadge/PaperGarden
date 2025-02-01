@@ -2,13 +2,25 @@
 
 #include "Globals.hpp"
 #include "Tangram.hpp"
+#include "MainMenu.hpp"
 
 #include <raylib.h>
 #include <memory>
+
+enum class GameState {
+    MENU,
+    PLAYING,
+    PAUSED
+};
 #include <vector>
 
 class Game {
 private:
+    GameState current_state;
+    std::unique_ptr<MainMenu> main_menu;
+    std::unique_ptr<MainMenu> pause_menu;
+    std::unique_ptr<Tangram> tangram;
+    bool should_close = false;
 
     std::unique_ptr<Tangram> tangram = nullptr;
     int grip_id = -1;
@@ -44,11 +56,8 @@ private:
     };
 
 public:
-
-    Game() {
-        tangram = std::make_unique<Tangram>(Globals::pixel_render->GetCameraCenter());
-    }
-
+    Game();
     void Update();
     void Draw();
+    bool ShouldClose() const { return should_close; }
 };

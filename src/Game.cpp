@@ -1,62 +1,115 @@
 #include "Game.hpp"
 #include "Globals.hpp"
 #include "Tangram.hpp"
+#include "MainMenu.hpp"
 #include <cmath>
 #include <iostream>
 #include <raylib.h>
+#include "Constants.hpp"
 
-Color GetPercentColor(int percent){
-    if (percent >= 90) return GREEN;
-    else if (percent >= 70) return YELLOW;
-    else if (percent >= 50) return ORANGE;
-    else return RED;
-}
-
-void Game::Update(){
-    if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)){
-        grip_id = tangram->GetIdAtPoint(Globals::pixel_render->GetMouseWorldPos());
-    }
-    if ((IsMouseButtonReleased(MOUSE_LEFT_BUTTON))){
-        grip_id = -1;
-    }
-
-    if (grip_id != -1){
-        tangram->MoveTile(grip_id, 
-            Vector2{
-                GetMouseDelta().x / Globals::pixel_render->GetZoom() / Globals::pixel_render->GetVirtualRatio(),
-                GetMouseDelta().y / Globals::pixel_render->GetZoom() / Globals::pixel_render->GetVirtualRatio()
-            }
-        );
-        if (IsKeyPressed(KEY_R)){
-            tangram->RotateTile(grip_id, M_PI/4);
-        }
-    }
-    else if (IsKeyPressed(KEY_R)){
-        tangram->RotateTilesAtPoint(Globals::pixel_render->GetMouseWorldPos(), M_PI/4, true);
-    }
-
-    if (IsKeyPressed(KEY_ENTER)){
-        auto points = tangram->GetAllPoints();
-        std::cout << "\nReference_" << tangram->GetPictureCount() << " = {\n";
-        for (auto point : points){
-            std::cout << "\t{" << point.x << ", " << point.y << "},\n";
-        }
-        std::cout << "}\n\n";
-
-        tangram->TakePicture();
-    }
-}
-
-void Game::Draw(){
-    ClearBackground(GRAY);
-    tangram->Draw();    
+Game::Game() : current_state(GameState::MENU) {
+    Vector2 center = {
+        static_cast<float>(GetScreenWidth()) / 2,
+        static_cast<float>(GetScreenHeight()) / 2
+    };
     
-    int percent = tangram->RatePointsSimilarityFromCenter(ref);
-    DrawText(
-        TextFormat("Similarity: %i", percent),
-        Globals::pixel_render->GetCameraCenter().x,
-        100, 
-        64, 
-        GetPercentColor(percent)
-    );
+    // Initialize components
+    tangram = std::make_unique<Tangram>();
+    main_menu = std::make_unique<MainMenu>(center, "Paper Garden", "Play", "Exit");
+    pause_menu = std::make_unique<MainMenu>(center, "Paused", "Resume", "Exit to Main Menu");
+
+    // Set up menu callbacks
+    if (main_menu) {
+        main_menu->SetOnPlayCallback([this]() { 
+            current_state = GameState::PLAYING; 
+        });
+        main_menu->SetOnExitCallback([this]() {
+            should_close = true;
+        });
+    }
+
+    if (pause_menu) {
+        pause_menu->SetOnPlayCallback([this]() { 
+            current_state = GameState::PLAYING; 
+        });
+        pause_menu->SetOnExitCallback([this]() {
+            current_state = GameState::MENU;
+        });
+    }
+}
+
+void Game::Update() {
+    if (!IsWindowReady()) return;
+
+    switch (current_state) {
+        case GameState::MENU:
+            if (main_menu) main_menu->Update();
+            break;
+            
+        case GameState::PLAYING:
+            Globals::pixel_render->Update();
+            
+            if (IsKeyPressed(KEY_ESCAPE)) {
+                current_state = GameState::PAUSED;
+                break;
+            }
+            
+            if (tangram) {
+                if (IsKeyPressed(KEY_R)) {
+                    tangram->RotateTilesAtPoint(Globals::pixel_render->GetMouseWorldPos(), M_PI/4, true);
+                }
+                if (IsMouseButtonDown(MOUSE_LEFT_BUTTON)) {
+                    tangram->MoveTilesAtPoint(Globals::pixel_render->GetMouseWorldPos(), Vector2{
+                        GetMouseDelta().x / Globals::pixel_render->GetZoom() / Globals::pixel_render->GetVirtualRatio(),
+                        GetMouseDelta().y / Globals::pixel_render->GetZoom() / Globals::pixel_render->GetVirtualRatio()
+                    }, true);
+                }
+            }
+            break;
+
+        case GameState::PAUSED:
+            if (IsKeyPressed(KEY_ESCAPE)) {
+                current_state = GameState::PLAYING;
+            }
+            if (pause_menu) pause_menu->Update();
+            break;
+    }
+}
+
+void Game::Draw() {
+    if (!IsWindowReady()) return;
+
+    BeginDrawing();
+    ClearBackground(RAYWHITE);
+
+    switch (current_state) {
+        case GameState::MENU:
+            if (main_menu) main_menu->Draw();
+            break;
+            
+        case GameState::PLAYING:
+        case GameState::PAUSED:
+            // Draw game state first
+            if (tangram) {
+                Globals::pixel_render->BeginDraw();
+                ClearBackground(RAYWHITE);
+                tangram->Draw();
+                Globals::pixel_render->EndDraw();
+                
+                ClearBackground(BLACK);
+                Globals::pixel_render->DrawResult();
+            }
+            
+            // If paused, draw the overlay and menu
+            if (current_state == GameState::PAUSED) {
+                BeginBlendMode(BLEND_ALPHA);
+                DrawRectangle(0, 0, GetScreenWidth(), GetScreenHeight(), Color{0, 0, 0, 180});
+                EndBlendMode();
+                
+                if (pause_menu) pause_menu->Draw();
+            }
+            break;
+    }
+    
+    EndDrawing();
 }
