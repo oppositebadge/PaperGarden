@@ -10,6 +10,7 @@ class Game {
 private:
 
     std::unique_ptr<Tangram> tangram = nullptr;
+    int grip_id = -1;
 
 public:
 

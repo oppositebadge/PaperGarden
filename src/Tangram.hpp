@@ -146,6 +146,17 @@ public:
 
     std::vector<Tile> GetTiles() { return tiles; }
 
+    int GetIdAtPoint(Vector2 point){
+        for (int i = 0; i < tiles.size(); i++){            
+            for (auto&& trig : tiles[i].trigs){
+                if (CheckCollisionPointTriangle(point, trig.points[0], trig.points[1], trig.points[2])){
+                    return i;
+                }
+            }
+        }
+        return -1;
+    }
+
     void RotateTilesAtPoint(Vector2 point, float rotation, bool only_one_tile=false){
         for (auto&& tile : tiles){
             bool overlaps = false;
@@ -184,5 +195,13 @@ public:
                 }
             }
         }
+    }
+
+    void MoveTile(int id, Vector2 delta_m){
+        tiles[id].Move(delta_m);
+    }
+
+    void RotateTile(int id, float delta_r){
+        tiles[id].Rotate(delta_r);
     }
 };
