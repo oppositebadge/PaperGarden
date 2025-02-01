@@ -37,11 +37,13 @@ void Game::Update(){
 
     if (IsKeyPressed(KEY_ENTER)){
         auto points = tangram->GetAllPoints();
-        std::cout << "{\n";
+        std::cout << "\nReference_" << tangram->GetPictureCount() << " = {\n";
         for (auto point : points){
             std::cout << "\t{" << point.x << ", " << point.y << "},\n";
         }
-        std::cout << "}\n";
+        std::cout << "}\n\n";
+
+        tangram->TakePicture();
     }
 }
 

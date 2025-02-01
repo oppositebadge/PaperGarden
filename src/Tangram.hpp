@@ -97,6 +97,9 @@ private:
     float max_deviation = 3000;
     int error_margin_snap = 15;
 
+    // taking picture
+    int picture_count = 0;
+
 public:
     Tangram(Vector2 center = {0,0}) { // default constructor fills tiles with starting tangram square layout
         float a = 320.f;
@@ -279,5 +282,38 @@ public:
 
 
         return RatePointsSimilarity(new_points, new_reference);
+    }
+
+    int GetPictureCount() { return picture_count; }
+
+    void TakePicture(){
+        Vector2 sum = {0,0};
+        auto points = GetAllPoints();
+        for (auto point : points){
+            sum = Vector2Add(sum, point);
+        }
+        Vector2 center = Vector2Scale(sum, 1.f/points.size());
+
+        int size = 1024;
+
+        RenderTexture2D render = LoadRenderTexture(size, size);
+        Camera2D cam = {0};
+        cam.target = center;
+        cam.offset = (Vector2){size/2.f, size/2.f}; // Offset should be the screen center
+        cam.rotation = 180.0f;
+        cam.zoom = 1.0f; // Ensure zoom is set correctly
+        
+        BeginTextureMode(render);
+        BeginMode2D(cam);
+
+        ClearBackground(BLANK);
+        Draw();
+
+        EndMode2D();
+        EndTextureMode();
+
+        Image image = LoadImageFromTexture(render.texture);
+        ExportImage(image, TextFormat("reference_%i.png", picture_count));
+        picture_count++;
     }
 };
