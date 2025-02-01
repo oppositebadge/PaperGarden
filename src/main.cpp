@@ -1,7 +1,9 @@
+#include "Game.hpp"
 #include "Constants.hpp"
 #include "Globals.hpp"
 
 #include <iostream>
+#include <memory>
 #include <raylib.h>
 
 #ifdef PLATFORM_WEB
@@ -12,6 +14,8 @@ void UpdateDrawFrame(void); // main loop func
 bool Init();
 void Deinit();
 void SetWorkingDirectoryToLocal();
+
+std::unique_ptr<Game> game = nullptr;
 
 int main(){
     if (!Init()){
@@ -39,27 +43,20 @@ void UpdateDrawFrame(void){
 
     Globals::pixel_render->Update();
 
-    // something like game->Update()
+    game->Update();
     Globals::pixel_render->BeginDraw();
-    // something like game->Draw()
-
-    // for example
-        DrawTexturePro(Globals::textures["image"],
-        Rectangle{0,0,64,64},
-        Rectangle{Globals::pixel_render->GetCameraCenter().x, Globals::pixel_render->GetCameraCenter().y, 500,500},
-        Vector2{0,0}, 0, WHITE);
-
+    game->Draw();
     Globals::pixel_render->EndDraw();
 
     BeginDrawing();
-        ClearBackground(WHITE);
+        ClearBackground(BLACK);
         Globals::pixel_render->DrawResult();
     EndDrawing();
 }
 
 bool Init(){
     InitWindow(AppConstants::ScreenWidth, AppConstants::ScreenHeight, AppConstants::WindowTitle.c_str());
-    SetWindowState(FLAG_WINDOW_RESIZABLE);
+    //SetWindowState(FLAG_WINDOW_RESIZABLE);
 
     InitAudioDevice();
     SetAudioStreamBufferSizeDefault(4096);
@@ -80,6 +77,8 @@ bool Init(){
     );
 
     Globals::LoadTextures();
+
+    game = std::make_unique<Game>();
 
     return true;
 }
