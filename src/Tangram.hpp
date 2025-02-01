@@ -94,8 +94,8 @@ private:
     std::vector<Tile> tiles = {};
 
     // similarity rating
-    float max_deviation = 300000;
-    int error_margin_snap = 80;
+    float max_deviation = 3000;
+    int error_margin_snap = 40;
 
 public:
     Tangram(Vector2 center = {0,0}) { // default constructor fills tiles with starting tangram square layout
