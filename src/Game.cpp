@@ -5,10 +5,6 @@
 #include <raylib.h>
 
 void Game::Update(){
-    if (IsKeyPressed(KEY_R)){
-        tangram->RotateTilesAtPoint(Globals::pixel_render->GetMouseWorldPos(), M_PI/4, true);
-    }
-
     if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)){
         grip_id = tangram->GetIdAtPoint(Globals::pixel_render->GetMouseWorldPos());
     }
@@ -23,6 +19,12 @@ void Game::Update(){
                 GetMouseDelta().y / Globals::pixel_render->GetZoom() / Globals::pixel_render->GetVirtualRatio()
             }
         );
+        if (IsKeyPressed(KEY_R)){
+            tangram->RotateTile(grip_id, M_PI/4);
+        }
+    }
+    else if (IsKeyPressed(KEY_R)){
+        tangram->RotateTilesAtPoint(Globals::pixel_render->GetMouseWorldPos(), M_PI/4, true);
     }
 }
 
