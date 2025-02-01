@@ -16,9 +16,11 @@ struct Triangle{
     void Draw(Color color){
         DrawTriangle(points[0], points[1], points[2], color);
 
+        /*
         for (auto point : points){
             DrawCircleV(point, 10, BLACK);
         }
+        */
     }
 
     void RearrangeCounterClockwise() {
@@ -52,7 +54,7 @@ struct Tile {
         return Vector2Scale(sum, 1.f / (trigs.size()*3) );
     }
 
-    void Move(Vector2 delta_m){
+    void Move(Vector2 delta_m, bool snap = true){
         for (auto&& trig : trigs){
             for (int i = 0; i < trig.points.size(); i++){
                 trig.points[i] = Vector2Add(trig.points[i], delta_m);
@@ -91,9 +93,13 @@ class Tangram {
 private:
     std::vector<Tile> tiles = {};
 
+    // similarity rating
+    float max_deviation = 300000;
+    int error_margin_snap = 80;
+
 public:
     Tangram(Vector2 center = {0,0}) { // default constructor fills tiles with starting tangram square layout
-        float a = 640.f;
+        float a = 320.f;
         
         tiles.push_back(Tile(
             { RightEvenTrig(center, a/sqrt(2), M_PI/4)},
@@ -203,5 +209,66 @@ public:
 
     void RotateTile(int id, float delta_r){
         tiles[id].Rotate(delta_r);
+    }
+
+    std::vector<Vector2> GetAllPoints(){
+        std::vector<Vector2> points = {};
+        for (auto&& tile : tiles){
+            for (auto&& trig : tile.trigs){
+                for (auto point : trig.points){
+                    points.push_back(point);
+                }
+            }
+        }
+        return points;
+    }
+
+    int RatePointsSimilarity(const std::vector<Vector2>& points, const std::vector<Vector2>& ref){
+        float sum_of_squared_dist = 0.f;
+        
+        for (auto&& point : points){
+            float min_distance = -1;
+        
+            for (auto&& ref_point : ref){
+                if (min_distance == -1){
+                    min_distance = floor(Vector2Distance(point, ref_point)/error_margin_snap)*error_margin_snap;
+                }
+                else min_distance = fmin(min_distance, floor(Vector2Distance(point, ref_point)/error_margin_snap)*error_margin_snap);
+            }
+        
+            sum_of_squared_dist += pow(min_distance,2);
+        }
+
+        int similarity = 100*fmax(0, (1 - sum_of_squared_dist/max_deviation));
+        return similarity;
+    }
+
+    int RatePointsSimilarityFromCenter(const std::vector<Vector2>& reference){
+        Vector2 ref_sum = {0,0};
+        for (auto point : reference){
+            ref_sum = Vector2Add(ref_sum, point);
+        }
+        Vector2 ref_center = Vector2Scale(ref_sum, 1.f/reference.size()/3);
+        
+        std::vector<Vector2> new_reference = {};
+        for (auto point : reference){
+            new_reference.push_back(Vector2Subtract(point, ref_center));
+        }
+
+
+
+        Vector2 sum = {0,0};
+        auto points = GetAllPoints();
+        for (auto point : points){
+            sum = Vector2Add(sum, point);
+        }
+        Vector2 center = Vector2Scale(sum, 1.f/points.size()/3);
+        
+        std::vector<Vector2> new_points = {};
+        for (auto point : points){
+            new_points.push_back(Vector2Subtract(point, center));
+        }
+
+        return RatePointsSimilarity(new_points, new_reference);
     }
 };
