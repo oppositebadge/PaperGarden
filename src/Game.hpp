@@ -22,9 +22,6 @@ private:
     std::unique_ptr<Tangram> tangram;
     bool should_close = false;
 
-    std::unique_ptr<Tangram> tangram = nullptr;
-    int grip_id = -1;
-
     std::vector<Vector2> ref = {
         {1163.09, 854.849},
         {1163.09, 628.575},
