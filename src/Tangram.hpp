@@ -95,7 +95,7 @@ private:
 
     // similarity rating
     float max_deviation = 3000;
-    int error_margin_snap = 40;
+    int error_margin_snap = 5;
 
 public:
     Tangram(Vector2 center = {0,0}) { // default constructor fills tiles with starting tangram square layout
