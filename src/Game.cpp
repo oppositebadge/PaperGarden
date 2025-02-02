@@ -134,56 +134,31 @@ void Game::Update() {
 void Game::Draw() {
     ClearBackground(RAYWHITE);
 
-    // Move variable declarations before switch
-    const char* line1 = "Recreate the reference picture using tiles";
-    const char* line2 = "Click and drag to move, press R to rotate the shapes";
-    int font_size = 60;
-
     switch (current_state) {
         case MENU:
             main_menu->Draw();
             break;
 
         case PLAYING:
-
             {
-            Texture2D background = Globals::textures["game_background"];
-
-            DrawTexturePro(
-                background,
-                Rectangle{0, 0, (float)background.width, (float)background.height},
-                Rectangle{0, 0, AppConstants::RenderWidth, AppConstants::RenderHeight},
-                Vector2{0, 0},
-                0.0f,
-                WHITE
-            );
+                Texture2D background = Globals::textures["game_background"];
+                DrawTexturePro(
+                    background,
+                    Rectangle{0, 0, (float)background.width, (float)background.height},
+                    Rectangle{0, 0, AppConstants::RenderWidth, AppConstants::RenderHeight},
+                    Vector2{0, 0},
+                    0.0f,
+                    WHITE
+                );
             }
 
             tangram->Draw();
             sidebar->Draw(Globals::textures[current_goal.reference_image_name]);
             
-            // Draw instruction text at top right
-            DrawTextEx(
-                Globals::fonts["pacifico"],
-                line1,
-                Vector2{GetScreenWidth() - MeasureTextEx(Globals::fonts["pacifico"], line1, font_size, 1).x - 20, 20},
-                font_size,
-                1,
-                LIGHTGRAY
-            );
-            DrawTextEx(
-                Globals::fonts["pacifico"],
-                line2,
-                Vector2{GetScreenWidth() - MeasureTextEx(Globals::fonts["pacifico"], line2, font_size, 1).x - 20, 70},
-                font_size,
-                1.0f,
-                LIGHTGRAY
-            );
             break;
 
         case PAUSED:
             pause_menu->Draw();
-
             break;
         case VIEWING_UNLOCKS:
             
