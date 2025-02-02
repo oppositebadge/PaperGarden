@@ -1,13 +1,36 @@
 #include "Globals.hpp"
+#include "Achievements.hpp"
 #include "Constants.hpp"
 
 namespace Globals {
     std::shared_ptr<PixelPerfect> pixel_render = std::make_shared<PixelPerfect>();
     std::unordered_map<std::string, Texture2D> textures = {};
-    std::unordered_map<int, Unlock> unlocks = {};
+    
+    std::unordered_map<int, Achievement> Achievements = {};
+    std::set<int> unlockedAchievements = {};
+    
+    Achievement FirstMissingAchievemnt(){
+        int expected = 0;
+        for (int achieved : unlockedAchievements) {
+            if (achieved != expected) {
+                return Achievements[expected];  // Found the first missing key
+            }
+            expected++;
+        }
+        if (Achievements.find(expected) != Achievements.end()){
+            return Achievements[expected];  // If no gaps, return the next number in sequence
+        }
+        else {
+            return Achievement{
+                {}, "",
+                true // final achievement
+            };
+        }
+        
+    }
 
-    void SetupUnlocks(){
-        unlocks[0] = Unlock{{
+    void SetupAchievements(){
+        Achievements[0] = Achievement{{
                 {989.242, 921.849},
                 {1215.52, 695.575},
                 {989.242, 695.575},
@@ -39,7 +62,7 @@ namespace Globals {
             "reference_0.png"
         };
 
-        unlocks[1] = Unlock{{
+        Achievements[1] = Achievement{{
                 {1134.09, 857.849},
                 {1134.09, 631.575},
                 {907.817, 631.575},
@@ -71,7 +94,7 @@ namespace Globals {
             "reference_1.png"
         };
     
-        unlocks[1] = Unlock{{
+        Achievements[2] = Achievement{{
                 {758.667, 717.333},
                 {1078.67, 717.333},
                 {918.667, 557.333},
