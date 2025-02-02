@@ -245,7 +245,7 @@ namespace Globals {
     }
 
     void LoadModels(){
-        models["garden"] = LoadModel(AppConstants::GetAssetPath("low_poly_garden/scene.gltf").c_str());
+        //models["garden"] = LoadModel(AppConstants::GetAssetPath("low_poly_garden/scene.gltf").c_str());
     }
 
     void LoadShaders(){
