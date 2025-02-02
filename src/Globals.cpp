@@ -148,9 +148,13 @@ namespace Globals {
         textures["pause_black"] = LoadTexture(AppConstants::GetAssetPath("pause_black.png").c_str());
         textures["pause_white"] = LoadTexture(AppConstants::GetAssetPath("pause_white.png").c_str()); 
         textures["main_menu_background"] = LoadTexture(AppConstants::GetAssetPath("Paper_Garden.png").c_str());
+<<<<<<< Updated upstream
 
         textures["reference_0"] = LoadTexture(AppConstants::GetAssetPath("reference_0.png").c_str());
         textures["clue_0"] = LoadTexture(AppConstants::GetAssetPath("clue_0.png").c_str());
+=======
+        textures["leaf_outline"] = LoadTexture(AppConstants::GetAssetPath("leaf_outline.png").c_str());
+>>>>>>> Stashed changes
     }
 
     void LoadFonts(){

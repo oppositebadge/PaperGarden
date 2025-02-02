@@ -10,6 +10,7 @@ class Sidebar {
         void Update();
         void Draw(Texture2D reference);
         void SetOnPauseCallback(std::function<void()> callback) { on_pause_callback = callback; }
+        void SetOnSubmitCallback(std::function<void()> callback) { on_submit_callback = callback; }
 
         void SetAccuracyPercentage(int percent){
             accuracy_percentage = percent;
@@ -26,11 +27,17 @@ class Sidebar {
         Rectangle reference_rect;
         Rectangle controls_rect;
         Button pause_button;
+        Button submit_button;
         Texture2D pause_black_icon;
         Texture2D pause_white_icon;
         std::function<void()> on_pause_callback;
+<<<<<<< Updated upstream
 
         int accuracy_percentage = 0;
 
+=======
+        std::function<void()> on_submit_callback;
+>>>>>>> Stashed changes
         void OnPausePressed();
+        void OnSubmitPressed();
 };

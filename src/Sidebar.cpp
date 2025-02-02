@@ -3,6 +3,7 @@
 #include "Globals.hpp"
 
 #include <raylib.h>
+#include <cmath>  // Add this for fmin
 
 Color GetPercentColor(int percent){
     if (percent >= 90) return GREEN;
@@ -26,6 +27,14 @@ Sidebar::Sidebar() {
         true             // Active
     );
 
+    submit_button = Button(
+        Rectangle{0, 0, 80, 40},  // Make button slightly smaller
+        Color{34, 139, 34, 255},
+        Color{50, 205, 50, 255},
+        Color{0, 100, 0, 255},
+        1.0f, false, 10, true
+    );
+
     width = AppConstants::SidebarWidth;
     height = AppConstants::SidebarHeight * 40.f/100;
     margin = 10;
@@ -37,8 +46,14 @@ Sidebar::Sidebar() {
     controls_rect = {x, y + height + (2*margin), width, height};
     pause_button.BindOnPressed(std::bind(&Sidebar::OnPausePressed, this));
     pause_button.SetPosition(
-        controls_rect.x + controls_rect.width - 70,  // 10px margin from right
-        controls_rect.y + controls_rect.height - 70  // 10px margin from bottom
+        controls_rect.x + controls_rect.width - 70,
+        controls_rect.y + controls_rect.height - 60
+    );
+
+    submit_button.BindOnPressed(std::bind(&Sidebar::OnSubmitPressed, this));
+    submit_button.SetPosition(
+        controls_rect.x + controls_rect.width - 170,  // Move further left from pause button
+        controls_rect.y + controls_rect.height - 60   // Align with pause button vertically
     );
 
     //std::cout << IsTextureValid(pause_black_icon) << std::endl;
@@ -46,6 +61,7 @@ Sidebar::Sidebar() {
 
 void Sidebar::Update() {
     pause_button.Update();
+    submit_button.Update(MOUSE_BUTTON_LEFT);
 }
 
 void Sidebar::Draw(Texture2D reference) {
@@ -56,6 +72,32 @@ void Sidebar::Draw(Texture2D reference) {
     DrawTexturePro(reference, Rectangle{0,0,1024,1024}, reference_rect, Vector2{0,0}, 0.f, WHITE);
     DrawRectangleRoundedLinesEx(reference_rect, 0.05f, 5, border_width, border_color);
     
+<<<<<<< Updated upstream
+=======
+    // Get the heart outline texture
+    Texture2D leaf = Globals::textures["leaf_outline"];
+    
+    // Calculate scaling to fit in reference rect while maintaining aspect ratio
+    float scale = fmin(
+        (reference_rect.width - 20) / leaf.width,
+        (reference_rect.height - 40) / leaf.height
+    );
+    
+    // Calculate centered position
+    float leaf_x = reference_rect.x + (reference_rect.width - (leaf.width * scale)) / 2;
+    float leaf_y = reference_rect.y + (reference_rect.height - (leaf.height * scale)) / 2;
+
+    // Draw the heart outline scaled and centered
+    DrawTexturePro(
+        leaf,
+        Rectangle{0, 0, (float)leaf.width, (float)leaf.height},
+        Rectangle{leaf_x, leaf_y, leaf.width * scale, leaf.height * scale},
+        Vector2{0, 0},
+        0.0f,
+        WHITE
+    );
+
+>>>>>>> Stashed changes
     DrawRectangleRoundedLinesEx(controls_rect, 0.05f, 5, border_width, border_color);
     DrawTextPro(
         Globals::fonts["pacifico"],
@@ -69,10 +111,28 @@ void Sidebar::Draw(Texture2D reference) {
         );
 
     pause_button.Draw();
+    submit_button.Draw();
+    
+    // Draw submit text
+    const char* submit_text = "Submit";
+    Vector2 text_size = MeasureTextEx(GetFontDefault(), submit_text, 20, 1);
+    DrawText(
+        submit_text,
+        submit_button.GetBounds().x + (submit_button.GetBounds().width - text_size.x)/2,
+        submit_button.GetBounds().y + (submit_button.GetBounds().height - text_size.y)/2,
+        20,
+        WHITE
+    );
 }
 
 void Sidebar::OnPausePressed() {
     if (on_pause_callback) {
         on_pause_callback();
+    }
+}
+
+void Sidebar::OnSubmitPressed() {
+    if (on_submit_callback) {
+        on_submit_callback();
     }
 }

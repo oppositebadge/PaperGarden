@@ -26,6 +26,9 @@ Game::Game() : current_state(MENU) {
     sidebar->SetOnPauseCallback([this]() {
         current_state = PAUSED;
     });
+    sidebar->SetOnSubmitCallback([this]() {
+        current_state = VIEWING_UNLOCKS;
+    });
     render3d = std::make_unique<Render3D>();
 
     // Set up menu callbacks
@@ -138,11 +141,12 @@ void Game::Draw() {
 
             break;
         case VIEWING_UNLOCKS:
-
+            
             render3d->BeginDraw();
                 //DrawGrid(20, 10.0f);
                 DrawModel(Globals::models["garden"], Vector3{0,0,0}, 0.05, WHITE);
             render3d->EndDraw();
+
 
             break;
     }
