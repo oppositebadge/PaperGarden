@@ -31,6 +31,11 @@ namespace Globals {
 
     void SetupAchievements(){
         Achievements[0] = Achievement{{
+    std::unordered_map<int, Unlock> unlocks = {};
+    std::unordered_map<std::string, Font> fonts = {};
+
+    void SetupUnlocks(){
+        unlocks[0] = Unlock{{
                 {989.242, 921.849},
                 {1215.52, 695.575},
                 {989.242, 695.575},
@@ -131,11 +136,24 @@ namespace Globals {
         // textures["name"] = LoadTexture(AppConstants::GetAssetPath("name.png"))
         // then to use: Globals::textures["name"]
         textures["image"] = LoadTexture(AppConstants::GetAssetPath("image.png").c_str());
+        textures["pause_black"] = LoadTexture(AppConstants::GetAssetPath("pause_black.png").c_str());
+        textures["pause_white"] = LoadTexture(AppConstants::GetAssetPath("pause_white.png").c_str()); 
+        textures["main_menu_background"] = LoadTexture(AppConstants::GetAssetPath("Paper_Garden.jpg").c_str());
+    }
+
+    void LoadFonts(){
+        fonts["pacifico"] = LoadFontEx(AppConstants::GetAssetPath("Pacifico-Regular.ttf").c_str(), 60, NULL, 0);
     }
 
     void UnloadTextures(){
         for(auto key_texture : textures){
             UnloadTexture(key_texture.second);
+        }
+    }
+
+    void UnloadFonts(){
+        for(auto key_font : fonts){
+            UnloadFont(key_font.second);
         }
     }
 }

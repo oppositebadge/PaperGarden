@@ -17,9 +17,11 @@ class MainMenu {
         std::string title_text;
         std::string play_button_text;
         std::string exit_button_text;
+        Texture2D background;
 
     public:
         MainMenu(Vector2 center, const std::string& title = "Paper Garden", const std::string& play_text = "Play", const std::string& exit_text = "Exit");
+        ~MainMenu();
         void Update();
         void Draw();
         void OnPlayPressed();

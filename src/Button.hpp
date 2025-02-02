@@ -49,4 +49,7 @@ class Button{
         void ToggleActive();
 
         Rectangle GetBounds() const { return button_rect; }
+
+        void SetPosition(float x, float y) { button_rect.x = x; button_rect.y = y; }
+        float GetWidth() const { return button_rect.width; }
 };

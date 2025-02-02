@@ -18,6 +18,9 @@ namespace Globals {
     extern std::set<int> unlockedAchievements;  // Keeps track of unlocked ones
 
     void SetupAchievements();
+    extern std::unordered_map<int, Unlock> unlocks;
+    extern std::unordered_map<std::string, Font> fonts;
+    void SetupUnlocks();
 
     void LoadTextures();
     void UnloadTextures();
