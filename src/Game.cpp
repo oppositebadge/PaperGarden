@@ -1,4 +1,5 @@
 #include "Game.hpp"
+#include "Constants.hpp"
 #include "Globals.hpp"
 #include "Render3D.hpp"
 #include "Tangram.hpp"
@@ -21,9 +22,9 @@ Game::Game() : current_state(MENU) {
     // Initialize components
     tangram = std::make_unique<Tangram>(Globals::pixel_render->GetCameraCenter());
 
-    main_menu = std::make_unique<MainMenu>(center, "   ", "Play", "Exit", "Garden", true, true);
-    pause_menu = std::make_unique<MainMenu>(center, "Paused", "Resume", "Main Menu", "None", true,  false);
-    win_menu = std::make_unique<MainMenu>(center, "Congratulations\n on completing the game!", "None", "Main Menu", "None", false, false);
+    main_menu = std::make_unique<MainMenu>(center, Globals::textures["main_menu_background"], "   ", "Play", "Exit", "Garden", true, true);
+    pause_menu = std::make_unique<MainMenu>(center, Globals::textures["main_menu_background"], "Paused", "Resume", "Main Menu", "None", true,  false);
+    win_menu = std::make_unique<MainMenu>(center, Globals::textures["main_menu_background"], "Congratulations\n on completing the game!", "None", "Main Menu", "None", false, false);
 
     sidebar = std::make_unique<Sidebar>();
     sidebar->SetOnPauseCallback([this]() {
@@ -144,6 +145,21 @@ void Game::Draw() {
             break;
 
         case PLAYING:
+
+            {
+            Texture2D background = Globals::textures["game_background"];
+
+            DrawTexturePro(
+                background,
+                Rectangle{0, 0, (float)background.width, (float)background.height},
+                Rectangle{0, 0, AppConstants::RenderWidth, AppConstants::RenderHeight},
+                Vector2{0, 0},
+                0.0f,
+                WHITE
+            );
+            }
+
+
             tangram->Draw();
             sidebar->Draw(Globals::textures[current_goal.reference_image_name]);
             

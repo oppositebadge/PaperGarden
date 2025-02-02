@@ -26,6 +26,7 @@ class Button{
     
         std::function<void()> on_pressed = 0;
         std::function<void()> on_released = 0;
+        std::function<void()> on_hovered = 0;
 
     public:
         Button() {}
@@ -39,9 +40,11 @@ class Button{
 
         void BindOnPressed(void (*func)());
         void BindOnReleased(void (*func)());
+        void BindOnHovered(void (*func)());
 
         void BindOnPressed(std::function<void()> func);
         void BindOnReleased(std::function<void()> func);
+        void BindOnHovered(std::function<void()> func);
 
         bool IsDown();
         bool IsActive();

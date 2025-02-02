@@ -29,7 +29,11 @@ Button::Button(Rectangle ButtonRect, Color ColorDefault, Color ColorHovered, Col
 void Button::UpdateV(Vector2 MousePos, int MouseButton){
     if (active && CheckCollisionPointRec(MousePos, button_rect)){
 
+        bool was_hovered = hovered;
         hovered = true;
+        if (!was_hovered && hovered){
+            if (on_hovered != 0) on_hovered();
+        }
 
         if (IsMouseButtonPressed(MouseButton)){
             down = true;
@@ -114,12 +118,20 @@ void Button::BindOnReleased(void (*func)()){
     on_released = func;
 }
 
+void Button::BindOnHovered(void (*func)()){
+    on_hovered = func;
+}
+
 void Button::BindOnPressed(std::function<void()> func) {
     on_pressed = func;
 }
 
 void Button::BindOnReleased(std::function<void()> func) {
     on_released = func;
+}
+
+void Button::BindOnHovered(std::function<void()> func) {
+    on_hovered = func;
 }
 
 bool Button::IsDown(){

@@ -15,14 +15,20 @@ struct Triangle{
         RearrangeCounterClockwise();
     }
     
+    void DrawLines(Color color){
+        float thick = 20.f;
+        DrawLineEx(points[0], points[1], thick, color);
+        DrawLineEx(points[0], points[2], thick, color);
+        DrawLineEx(points[1], points[2], thick, color);
+
+        float rad = thick/2;
+        DrawCircleV(points[0], rad, color);
+        DrawCircleV(points[1], rad, color);
+        DrawCircleV(points[2], rad, color);
+    }
+
     void Draw(Color color){
         DrawTriangle(points[0], points[1], points[2], color);
-
-        /*
-        for (auto point : points){
-            DrawCircleV(point, 10, BLACK);
-        }
-        */
     }
 
     void RearrangeCounterClockwise() {
@@ -74,6 +80,12 @@ struct Tile {
                 trig.points[i] = Vector2Add(center, frm_cntr_to_pnt);
             }
             trig.RearrangeCounterClockwise();
+        }
+    }
+
+    void DrawLines(Color clr){
+        for (auto trig : trigs){
+            trig.DrawLines(clr);
         }
     }
 
@@ -151,6 +163,7 @@ public:
 
     void Draw(){
         for (auto tile : tiles){
+            tile.DrawLines(Globals::pico_black);
             tile.Draw();
         }
     }

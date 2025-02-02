@@ -1,11 +1,13 @@
 #include "MainMenu.hpp"
 #include <raymath.h>
 #include <string>
+#include "Constants.hpp"
 #include "Globals.hpp"
 #include <raylib.h>
 
 MainMenu::MainMenu(
                                         Vector2 center,
+                                        Texture2D background,
                                         const std::string& title,
                                         const std::string& play_text,
                                         const std::string& exit_text,
@@ -18,7 +20,7 @@ MainMenu::MainMenu(
     play_button_text(play_text),
     exit_button_text(exit_text),
     view_unlocks_button_text(view_unlocks_text),
-    background(Globals::textures["main_menu_background"]),
+    background(background),
     play_button(
         Rectangle{
             center.x - 120,
@@ -83,7 +85,7 @@ void MainMenu::Draw() {
     DrawTexturePro(
         background,
         Rectangle{0, 0, (float)background.width, (float)background.height},
-        Rectangle{0, 0, (float)GetScreenWidth(), (float)GetScreenHeight()},
+        Rectangle{0, 0, AppConstants::RenderWidth, AppConstants::RenderHeight},
         Vector2{0, 0},
         0.0f,
         WHITE

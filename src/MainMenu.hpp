@@ -27,6 +27,7 @@ class MainMenu {
     public:
         MainMenu(
             Vector2 center, 
+            Texture2D background,
             const std::string& title = "Paper Garden", 
             const std::string& play_text = "Play", 
             const std::string& exit_text = "Exit",

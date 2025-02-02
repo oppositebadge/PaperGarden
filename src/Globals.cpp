@@ -197,7 +197,8 @@ namespace Globals {
         // then to use: Globals::textures["name"]
         LoadTextureGlobal("pause_black");
         LoadTextureGlobal("pause_white");
-        textures["main_menu_background"] = LoadTexture(AppConstants::GetAssetPath("main_menu_background.png").c_str());
+        LoadTextureGlobal("main_menu_background");
+        LoadTextureGlobal("game_background");
 
         LoadTextureGlobal("reference_0");
 
