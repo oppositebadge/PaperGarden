@@ -1,9 +1,11 @@
 #include "Game.hpp"
 #include "Globals.hpp"
+#include "Render3D.hpp"
 #include "Tangram.hpp"
 #include "MainMenu.hpp"
 #include <cmath>
 #include <iostream>
+#include <memory>
 #include <raylib.h>
 
 Game::Game() : current_state(MENU) {
@@ -16,6 +18,8 @@ Game::Game() : current_state(MENU) {
     tangram = std::make_unique<Tangram>(Globals::pixel_render->GetCameraCenter());
     main_menu = std::make_unique<MainMenu>(center, "Paper Garden", "Play", "Exit");
     pause_menu = std::make_unique<MainMenu>(center, "Paused", "Resume", "Main Menu");
+
+    render3d = std::make_unique<Render3D>();
 
     // Set up menu callbacks
     if (main_menu) {
@@ -90,6 +94,9 @@ void Game::Update() {
             }
             pause_menu->Update();
             break;
+        case VIEWING_UNLOCKS:
+            render3d->Update();
+            break;
     }
 }
 
@@ -107,6 +114,13 @@ void Game::Draw() {
 
         case PAUSED:
             pause_menu->Draw();
+            break;
+        case VIEWING_UNLOCKS:
+
+            render3d->BeginDraw();
+                DrawGrid(20, 10.0f);
+            render3d->EndDraw();
+
             break;
     }
 }

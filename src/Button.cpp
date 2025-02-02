@@ -88,8 +88,17 @@ void Button::Draw(){
 
     if (use_colors)
     {
-        DrawRectangleRec(button_rect, color);
-        DrawRectangleLinesEx(button_rect, thickness, BLACK);
+        float roundness = 0.5f;
+        int segments = 0;
+        DrawRectangleRounded(button_rect, roundness, segments, color);
+        DrawRectangleRoundedLinesEx(Rectangle{
+            button_rect.x-thickness/2,
+            button_rect.y-thickness/2,
+            button_rect.width+thickness,
+            button_rect.height+thickness
+        }, roundness, segments, thickness, BLACK);
+        //DrawRectangleRec(button_rect, color);
+        //DrawRectangleLinesEx(button_rect, thickness, BLACK);
     }
     else {
         DrawTexturePro(texture, source, button_rect, Vector2{0,0}, 0, WHITE);

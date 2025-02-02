@@ -3,6 +3,8 @@
 #include "Tangram.hpp"
 #include "MainMenu.hpp"
 
+#include <Render3D.hpp>
+
 #include <raylib.h>
 #include <memory>
 #include <vector>
@@ -10,7 +12,8 @@
 enum GameState {
     MENU,
     PLAYING,
-    PAUSED
+    PAUSED,
+    VIEWING_UNLOCKS
 };
 
 class Game {
@@ -19,6 +22,7 @@ private:
     std::unique_ptr<MainMenu> main_menu = nullptr;
     std::unique_ptr<MainMenu> pause_menu = nullptr;
     std::unique_ptr<Tangram> tangram = nullptr;
+    std::unique_ptr<Render3D> render3d = nullptr;
     bool should_close = false;
 
     int grip_id = -1;
