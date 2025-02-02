@@ -15,24 +15,14 @@ namespace AppConstants
     const int RenderWidth = 1920;
     const int RenderHeight = 1080;
 
-    // UI Constants that scale with screen size
-    inline float GetUIScale() {
-        return static_cast<float>(GetScreenHeight()) / 1080.0f;
-    }
-
-    inline float GetPauseButtonSize() {
-        return 40.0f * GetUIScale();
-    }
-
-    inline float GetPauseButtonMargin() {
-        return 20.0f * GetUIScale();
-    }
-
     const int RenderScale = 1;
 
     // default screen size
     const int ScreenWidth = RenderWidth*RenderScale;
     const int ScreenHeight = RenderHeight*RenderScale;
+
+    const int SidebarWidth = ScreenWidth * 20/100;
+    const int SidebarHeight = ScreenHeight;
 
     // when loading an asset, do LoadTexture(AppConstants::GetAssetPath(bare_name.png))
     inline std::string GetAssetPath(std::string assetName)

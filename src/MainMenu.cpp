@@ -1,14 +1,16 @@
 #include "MainMenu.hpp"
 #include <raymath.h>
 #include <string>
-//#include <iostream>
-//#include "Constants.hpp"
+#include "Constants.hpp"
+#include "Globals.hpp"
+#include <raylib.h>
 
 MainMenu::MainMenu(Vector2 center, const std::string& title, const std::string& play_text, const std::string& exit_text) : 
     main_menu_center(center),
     title_text(title),
     play_button_text(play_text),
     exit_button_text(exit_text),
+    background(Globals::textures["main_menu_background"]),
     play_button(
         Rectangle{
             center.x - 120,
@@ -24,7 +26,7 @@ MainMenu::MainMenu(Vector2 center, const std::string& title, const std::string& 
     exit_button(
         Rectangle{
             center.x - 120,
-            center.y + 80,
+            center.y + 100,
             240,
             60
         },
@@ -38,23 +40,36 @@ MainMenu::MainMenu(Vector2 center, const std::string& title, const std::string& 
     exit_button.BindOnPressed(std::bind(&MainMenu::OnExitPressed, this));
 }
 
+MainMenu::~MainMenu() {
+    // Remove this line since the texture is managed by Globals
+    // UnloadTexture(background);
+}
+
 void MainMenu::Update() {
     play_button.Update(MOUSE_BUTTON_LEFT);
     exit_button.Update(MOUSE_BUTTON_LEFT);
 }
 
 void MainMenu::Draw() {
-    // Draw solid colored background
-    DrawRectangle(0, 0, GetScreenWidth(), GetScreenHeight(), RAYWHITE);
+    // Draw background image scaled to fill screen
+    DrawTexturePro(
+        background,
+        Rectangle{0, 0, (float)background.width, (float)background.height},
+        Rectangle{0, 0, (float)GetScreenWidth(), (float)GetScreenHeight()},
+        Vector2{0, 0},
+        0.0f,
+        WHITE
+    );
 
     // Draw title
     const int title_font_size = 60;
-    Vector2 text_size = MeasureTextEx(GetFontDefault(), title_text.c_str(), title_font_size, 1);
-    DrawText(
+    Vector2 text_size = MeasureTextEx(Globals::fonts["pacifico"], title_text.c_str(), title_font_size, 1);
+    DrawTextEx(
+        Globals::fonts["pacifico"],
         title_text.c_str(),
-        main_menu_center.x - text_size.x/2,
-        main_menu_center.y - 150,
+        Vector2{main_menu_center.x - text_size.x/2 - 100, main_menu_center.y - 150},
         title_font_size,
+        2,
         text_color
     );
 
@@ -80,7 +95,7 @@ void MainMenu::Draw() {
     DrawText(
         exit_button_text.c_str(),
         main_menu_center.x - exit_text_size.x/2,
-        main_menu_center.y + 80 + 60.f/2 - exit_text_size.y/2,
+        main_menu_center.y + 100 + 60.f/2 - exit_text_size.y/2,
         button_font_size,
         WHITE
     );

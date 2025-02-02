@@ -3,6 +3,7 @@
 #include "Render3D.hpp"
 #include "Tangram.hpp"
 #include "MainMenu.hpp"
+#include "Sidebar.hpp"
 #include <cmath>
 #include <iostream>
 #include <memory>
@@ -16,9 +17,12 @@ Game::Game() : current_state(MENU) {
     
     // Initialize components
     tangram = std::make_unique<Tangram>(Globals::pixel_render->GetCameraCenter());
-    main_menu = std::make_unique<MainMenu>(center, "Paper Garden", "Play", "Exit");
+    main_menu = std::make_unique<MainMenu>(center, "   ", "Play", "Exit");
     pause_menu = std::make_unique<MainMenu>(center, "Paused", "Resume", "Main Menu");
-
+    sidebar = std::make_unique<Sidebar>();
+    sidebar->SetOnPauseCallback([this]() {
+        current_state = PAUSED;
+    });
     render3d = std::make_unique<Render3D>();
 
     // Set up menu callbacks
@@ -86,6 +90,7 @@ void Game::Update() {
                 tangram->TakePicture();
             }
         
+            sidebar->Update();  
             break;
 
         case PAUSED:
@@ -110,6 +115,7 @@ void Game::Draw() {
 
         case PLAYING:
             tangram->Draw();
+            sidebar->Draw();
             break;
 
         case PAUSED:
