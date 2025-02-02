@@ -3,7 +3,6 @@
 #include "Globals.hpp"
 
 #include <algorithm>
-#include <iostream>
 #include <raylib.h>
 
 #include <raymath.h>
@@ -229,7 +228,6 @@ public:
     }
 
     void RotateTile(int id, float delta_r){
-        std::cout << id << '\n';
         tiles[id].Rotate(delta_r);
     }
 
