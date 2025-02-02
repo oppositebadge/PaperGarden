@@ -115,7 +115,7 @@ void MainMenu::Draw() {
     
     if (show_play){
         // Draw play text centered on play button
-        Vector2 play_text_size = MeasureTextEx(GetFontDefault(), play_button_text.c_str(), button_font_size, 1);
+        Vector2 play_text_size = MeasureTextEx(Globals::fonts["pacifico"], play_button_text.c_str(), button_font_size, 1);
         DrawTextEx(
             Globals::fonts["pacifico"],
             play_button_text.c_str(),
@@ -130,7 +130,7 @@ void MainMenu::Draw() {
     }
 
     // Draw exit text centered on exit button
-    Vector2 exit_text_size = MeasureTextEx(GetFontDefault(), exit_button_text.c_str(), button_font_size, 1);
+    Vector2 exit_text_size = MeasureTextEx(Globals::fonts["pacifico"], exit_button_text.c_str(), button_font_size, 1);
     DrawTextEx(
         Globals::fonts["pacifico"],
         exit_button_text.c_str(),
@@ -145,7 +145,7 @@ void MainMenu::Draw() {
     
     // Draw view unlocks text if button is shown
     if (show_view_unlocks) {
-        Vector2 view_unlocks_text_size = MeasureTextEx(GetFontDefault(), view_unlocks_button_text.c_str(), button_font_size, 1);
+        Vector2 view_unlocks_text_size = MeasureTextEx(Globals::fonts["pacifico"], view_unlocks_button_text.c_str(), button_font_size, 1);
         DrawTextEx(
             Globals::fonts["pacifico"],
             view_unlocks_button_text.c_str(),
