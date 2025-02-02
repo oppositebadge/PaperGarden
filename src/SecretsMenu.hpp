@@ -28,9 +28,9 @@ public:
                 240,
                 60
             },
-            Color{139, 0, 0, 255},
-            Color{205, 92, 92, 255},
-            Color{100, 0, 0, 255},
+            Globals::pico_red,          // Default color
+            Globals::pico_pink,    // Hover color
+            Globals::pico_red,     // Pressed color
             1.0f, false, 5, true
         ) {
 

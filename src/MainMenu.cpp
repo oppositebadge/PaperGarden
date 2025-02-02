@@ -6,15 +6,15 @@
 #include <raylib.h>
 
 MainMenu::MainMenu(
-                                        Vector2 center,
-                                        Texture2D background,
-                                        const std::string& title,
-                                        const std::string& play_text,
-                                        const std::string& exit_text,
-                                        const std::string& view_unlocks_text,
-                                        bool show_play,
-                                        bool show_view_unlocks
-                                    ) :
+    Vector2 center,
+    Texture2D background,
+    const std::string& title,
+    const std::string& play_text,
+    const std::string& exit_text,
+    const std::string& view_unlocks_text,
+    bool show_play,
+    bool show_view_unlocks) :
+    
     main_menu_center(center),
     title_text(title),
     play_button_text(play_text),
@@ -28,9 +28,9 @@ MainMenu::MainMenu(
             240,
             60
         },
-        Color{34, 139, 34, 255},
-        Color{50, 205, 50, 255},
-        Color{0, 100, 0, 255},
+        Globals::pico_green,         // Default color
+        Globals::pico_green_light,   // Hover color
+        Globals::pico_green_dark,    // Pressed color
         1.0f, false, 5, true
     ),
     exit_button(
@@ -40,9 +40,9 @@ MainMenu::MainMenu(
             240,
             60
         },
-        Color{139, 0, 0, 255},
-        Color{205, 92, 92, 255},
-        Color{100, 0, 0, 255},
+        Globals::pico_red,          // Default color
+        Globals::pico_pink,    // Hover color
+        Globals::pico_red,     // Pressed color
         1.0f, false, 5, true
     ),
     view_unlocks_button(
@@ -52,9 +52,9 @@ MainMenu::MainMenu(
             240,
             60
         },
-        Color{0, 0, 139, 255},
-        Color{65, 105, 225, 255},
-        Color{0, 0, 100, 255},
+        Globals::pico_blue_dark,         // Default color
+        Globals::pico_blue,   // Hover color
+        Globals::pico_blue_dark,    // Pressed color
         1.0f, false, 5, true
     ),
     show_play(show_play),
@@ -102,7 +102,7 @@ void MainMenu::Draw() {
     DrawTextEx(
         Globals::fonts["pacifico"],
         title_text.c_str(),
-        Vector2{main_menu_center.x - text_size.x/2 - 100, main_menu_center.y - 150},
+        Vector2{main_menu_center.x - text_size.x/2, main_menu_center.y - 150},
         title_font_size,
         2,
         text_color
@@ -132,7 +132,7 @@ void MainMenu::Draw() {
             },
             button_font_size,
             1.f,
-            WHITE
+            Globals::pico_white
         );
     }
 
@@ -147,7 +147,7 @@ void MainMenu::Draw() {
         },
         button_font_size,
         1.f, 
-        WHITE
+        Globals::pico_white
     );
     
     // Draw view unlocks text if button is shown
@@ -162,7 +162,7 @@ void MainMenu::Draw() {
             },
             button_font_size,
             1.f,
-            WHITE
+            Globals::pico_white
         );
     }
 }

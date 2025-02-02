@@ -28,10 +28,10 @@ Sidebar::Sidebar() {
     );
 
     submit_button = Button(
-        Rectangle{0, 0, 80, 40},  // Make button slightly smaller
-        Color{34, 139, 34, 255},
-        Color{50, 205, 50, 255},
-        Color{0, 100, 0, 255},
+        Rectangle{0, 0, 80, 40},
+        Globals::pico_green,      // Default color
+        Globals::pico_green_light,  // Hover color
+        Globals::pico_green_dark,   // Pressed color
         1.0f, false, 10, true
     );
 
@@ -43,18 +43,31 @@ Sidebar::Sidebar() {
     border_width = 2;
     border_color = BLACK;
     reference_rect = {x, y, width, height};
-    controls_rect = {x, y + height + (2*margin), width, height};
+    
+    float controls_height = height * 0.6f;
+    controls_rect = {
+        x, 
+        y + height + margin,
+        width, 
+        controls_height
+    };
+
+    pause_button.BindOnHovered(Globals::PlaySoundOnButtonHovered);
     pause_button.BindOnPressed(std::bind(&Sidebar::OnPausePressed, this));
+    // Center pause button horizontally and place it at bottom
     pause_button.SetPosition(
-        controls_rect.x + controls_rect.width - 70,
-        controls_rect.y + controls_rect.height - 60
+        controls_rect.x + (controls_rect.width - pause_button.GetWidth())/2,  // Center horizontally
+        controls_rect.y + controls_rect.height - 60  // Near bottom
     );
 
-    submit_button.BindOnPressed(std::bind(&Sidebar::OnSubmitPressed, this));
+    // Place submit button above pause button
     submit_button.SetPosition(
-        controls_rect.x + controls_rect.width - 170,  // Move further left from pause button
-        controls_rect.y + controls_rect.height - 60   // Align with pause button vertically
+        controls_rect.x + (controls_rect.width - submit_button.GetWidth())/2,  // Center horizontally
+        controls_rect.y + controls_rect.height - 120  // Above pause button
     );
+
+    submit_button.BindOnHovered(Globals::PlaySoundOnButtonHovered);
+    submit_button.BindOnPressed(std::bind(&Sidebar::OnSubmitPressed, this));
 
     //std::cout << IsTextureValid(pause_black_icon) << std::endl;
 }
@@ -69,23 +82,23 @@ void Sidebar::Update() {
 void Sidebar::Draw(Texture2D reference) {
     // Draw sidebar contents
     int font_size = 60;
-    //DrawText("Reference", reference_rect.x + reference_rect.width/2 - 100, reference_rect.y + reference_rect.height/2 - 10, font_size, BLACK);
-    //DrawTextureV(reference, Globals::pixel_render->GetCameraCenter(), WHITE);
     DrawTexturePro(reference, Rectangle{0,0,1024,1024}, reference_rect, Vector2{0,0}, 0.f, WHITE);
-    DrawRectangleRoundedLinesEx(reference_rect, 0.05f, 5, border_width, border_color);
     
-    DrawRectangleRoundedLinesEx(controls_rect, 0.05f, 5, border_width, border_color);
+    // Move similarity text above submit button
     DrawTextPro(
         Globals::fonts["pacifico"],
         // pacifico font doesn't have % character
         TextFormat("Similarity: %i", accuracy_percentage),
-        Vector2{controls_rect.x + controls_rect.width/2 - 160, controls_rect.y + controls_rect.height/2 - 10},
+        Vector2{
+            controls_rect.x + controls_rect.width/2 - 160,
+            controls_rect.y + controls_rect.height/2 - 80  // Moved up by adjusting y coordinate
+        },
         Vector2{0,0},
         0.f,
         font_size,
         1.0f,
         GetPercentColor(accuracy_percentage)
-        );
+    );
 
     pause_button.Draw();
     
@@ -102,6 +115,46 @@ void Sidebar::Draw(Texture2D reference) {
             WHITE
         );
     }
+
+    // Move instruction text further down
+    const char* line1 = "Recreate the reference";
+    const char* line2 = "picture using tiles.";
+    const char* line3 = "Click and drag to move,";
+    const char* line4 = "press R to rotate the shapes";
+    int instruction_font_size = 60;
+    
+    DrawTextEx(
+        Globals::fonts["pacifico"],
+        line1,
+        Vector2{x + 10, controls_rect.y + controls_rect.height + 60},  // Increased y offset
+        instruction_font_size,
+        1,
+        Globals::pico_blue_dark
+    );
+    DrawTextEx(
+        Globals::fonts["pacifico"],
+        line2,
+        Vector2{x + 10, controls_rect.y + controls_rect.height + 90},  // Increased y offset
+        instruction_font_size,
+        1,
+        Globals::pico_blue_dark
+    );
+    DrawTextEx(
+        Globals::fonts["pacifico"],
+        line3,
+        Vector2{x + 10, controls_rect.y + controls_rect.height + 150},  // Increased y offset
+        instruction_font_size,
+        1,
+        Globals::pico_blue_dark
+    );
+    DrawTextEx(
+        Globals::fonts["pacifico"],
+        line4,
+        Vector2{x + 10, controls_rect.y + controls_rect.height + 190},  // Increased y offset
+        instruction_font_size,
+        1,
+        Globals::pico_blue_dark
+    );
 }
 
 void Sidebar::OnPausePressed() {

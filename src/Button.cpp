@@ -1,5 +1,6 @@
 #include "Button.hpp"
 #include "raylib.h"
+#include "Globals.hpp"
 
 Button::Button(Rectangle ButtonRect, Texture2D TextureDefault, Texture2D TextureHovered, Texture2D TexturePressed, float SecShowPressed, bool CheckboxVal, bool Active){
     button_rect = ButtonRect;
@@ -100,7 +101,7 @@ void Button::Draw(){
             button_rect.y-thickness/2,
             button_rect.width+thickness,
             button_rect.height+thickness
-        }, roundness, segments, thickness, BLACK);
+        }, roundness, segments, thickness, Globals::pico_black);
         //DrawRectangleRec(button_rect, color);
         //DrawRectangleLinesEx(button_rect, thickness, BLACK);
     }
