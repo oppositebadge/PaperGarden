@@ -5,11 +5,17 @@
 #include "Globals.hpp"
 #include <raylib.h>
 
-MainMenu::MainMenu(Vector2 center, const std::string& title, const std::string& play_text, const std::string& exit_text) : 
+MainMenu::MainMenu(Vector2 center,
+    const std::string& title,
+    const std::string& play_text,
+    const std::string& exit_text,
+    const std::string& view_unlocks_text,
+    bool show_view_unlocks) :
     main_menu_center(center),
     title_text(title),
     play_button_text(play_text),
     exit_button_text(exit_text),
+    view_unlocks_button_text(view_unlocks_text),
     background(Globals::textures["main_menu_background"]),
     play_button(
         Rectangle{
@@ -26,7 +32,7 @@ MainMenu::MainMenu(Vector2 center, const std::string& title, const std::string& 
     exit_button(
         Rectangle{
             center.x - 120,
-            center.y + 100,
+            center.y + play_button.GetBounds().height + 40,  // 40px gap after play button
             240,
             60
         },
@@ -34,10 +40,24 @@ MainMenu::MainMenu(Vector2 center, const std::string& title, const std::string& 
         Color{205, 92, 92, 255},
         Color{100, 0, 0, 255},
         1.0f, false, 10, true
-    )
+    ),
+    view_unlocks_button(
+        Rectangle{
+            center.x - 120,
+            center.y + (play_button.GetBounds().height + 40) * 2,  // Double the offset of exit button
+            240,
+            60
+        },
+        Color{0, 0, 139, 255},
+        Color{65, 105, 225, 255},
+        Color{0, 0, 100, 255},
+        1.0f, false, 10, true
+    ),
+    show_view_unlocks(show_view_unlocks)
 {
     play_button.BindOnPressed(std::bind(&MainMenu::OnPlayPressed, this));
     exit_button.BindOnPressed(std::bind(&MainMenu::OnExitPressed, this));
+    view_unlocks_button.BindOnPressed(std::bind(&MainMenu::OnViewUnlocksPressed, this));
 }
 
 MainMenu::~MainMenu() {
@@ -48,6 +68,9 @@ MainMenu::~MainMenu() {
 void MainMenu::Update() {
     play_button.Update(MOUSE_BUTTON_LEFT);
     exit_button.Update(MOUSE_BUTTON_LEFT);
+    if (show_view_unlocks) {
+        view_unlocks_button.Update(MOUSE_BUTTON_LEFT);
+    }
 }
 
 void MainMenu::Draw() {
@@ -76,29 +99,43 @@ void MainMenu::Draw() {
     // Draw buttons
     play_button.Draw();
     exit_button.Draw();
+    if (show_view_unlocks) {
+        view_unlocks_button.Draw();
+    }
 
-    // Draw button texts
     const int button_font_size = 30;
     
-    // Draw play text
+    // Draw play text centered on play button
     Vector2 play_text_size = MeasureTextEx(GetFontDefault(), play_button_text.c_str(), button_font_size, 1);
     DrawText(
         play_button_text.c_str(),
-        main_menu_center.x - play_text_size.x/2,
-        main_menu_center.y + 60.f/2 - play_text_size.y/2,
+        play_button.GetBounds().x + play_button.GetBounds().width/2 - play_text_size.x/2,
+        play_button.GetBounds().y + play_button.GetBounds().height/2 - play_text_size.y/2,
         button_font_size,
         WHITE
     );
 
-    // Draw exit text with custom text
+    // Draw exit text centered on exit button
     Vector2 exit_text_size = MeasureTextEx(GetFontDefault(), exit_button_text.c_str(), button_font_size, 1);
     DrawText(
         exit_button_text.c_str(),
-        main_menu_center.x - exit_text_size.x/2,
-        main_menu_center.y + 100 + 60.f/2 - exit_text_size.y/2,
+        exit_button.GetBounds().x + exit_button.GetBounds().width/2 - exit_text_size.x/2,
+        exit_button.GetBounds().y + exit_button.GetBounds().height/2 - exit_text_size.y/2,
         button_font_size,
         WHITE
     );
+    
+    // Draw view unlocks text if button is shown
+    if (show_view_unlocks) {
+        Vector2 view_unlocks_text_size = MeasureTextEx(GetFontDefault(), view_unlocks_button_text.c_str(), button_font_size, 1);
+        DrawText(
+            view_unlocks_button_text.c_str(),
+            view_unlocks_button.GetBounds().x + view_unlocks_button.GetBounds().width/2 - view_unlocks_text_size.x/2,
+            view_unlocks_button.GetBounds().y + view_unlocks_button.GetBounds().height/2 - view_unlocks_text_size.y/2,
+            button_font_size,
+            WHITE
+        );
+    }
 }
 
 void MainMenu::OnPlayPressed() {
@@ -110,5 +147,11 @@ void MainMenu::OnPlayPressed() {
 void MainMenu::OnExitPressed() {
     if (on_exit_callback) {
         on_exit_callback();
+    }
+}
+
+void MainMenu::OnViewUnlocksPressed() {
+    if (on_view_unlocks_callback) {
+        on_view_unlocks_callback();
     }
 }
