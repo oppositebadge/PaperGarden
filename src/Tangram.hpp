@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Globals.hpp"
+
 #include <algorithm>
 #include <raylib.h>
 
@@ -106,17 +108,17 @@ public:
         
         tiles.push_back(Tile(
             { RightEvenTrig(center, a/sqrt(2), M_PI/4)},
-            RED
+            Globals::pico_red
         ));
 
         tiles.push_back(Tile(
             { RightEvenTrig(center, a/sqrt(2), M_PI/2+M_PI/4)},
-            GREEN
+            Globals::pico_green
         ));
 
         tiles.push_back(Tile(
             { RightEvenTrig(center, a/2/sqrt(2), M_PI+M_PI/4)},
-            YELLOW
+            Globals::pico_yellow
         ));
 
         tiles.push_back(Tile(
@@ -124,12 +126,12 @@ public:
                 RightEvenTrig(Vector2Add(center, Vector2{-a/2, 0}), a/2/sqrt(2), M_PI/4),
                 RightEvenTrig(Vector2Add(center, Vector2{-a/4, a/4}), a/2/sqrt(2), M_PI+M_PI/4)
             },
-            ORANGE
+            Globals::pico_orange
         ));
     
         tiles.push_back(Tile(
             { RightEvenTrig(Vector2Add(center, Vector2{-a/2, -a/2}), a/2, M_PI/2)},
-            BLUE
+            Globals::pico_blue
         ));
 
         tiles.push_back(Tile(
@@ -137,12 +139,12 @@ public:
                 RightEvenTrig(Vector2Add(center, Vector2{a/4, -a/4}), a/2/sqrt(2), M_PI+M_PI/4),
                 RightEvenTrig(Vector2Add(center, Vector2{-a/4, -a/4}), a/2/sqrt(2), M_PI/4)
             },
-            BLACK
+            Globals::pico_vineous
         ));
 
         tiles.push_back(Tile(
             {RightEvenTrig(Vector2Add(center, Vector2{a/4, -a/4}), a/2/sqrt(2), -M_PI/4)},
-            PURPLE
+            Globals::pico_pink
         ));
 
     }
