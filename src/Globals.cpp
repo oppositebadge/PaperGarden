@@ -158,7 +158,9 @@ namespace Globals {
     }
 
     void LoadFonts(){
-        fonts["pacifico"] = LoadFontEx(AppConstants::GetAssetPath("Pacifico-Regular.ttf").c_str(), 60, NULL, 0);
+        fonts["pacifico"] = LoadFontEx(AppConstants::GetFontAssetPath("Pacifico-Regular.ttf").c_str(), 60, NULL, 0);
+        fonts["vampire_kiss"] = LoadFontEx(AppConstants::GetFontAssetPath("vampire-kiss/Vampire Kiss Demo.ttf").c_str(), 60, NULL, 0);
+        fonts["poppins"] = LoadFontEx(AppConstants::GetFontAssetPath("Poppins/Poppins-Regular.ttf").c_str(), 60, NULL, 0);
     }
 
     void LoadModels(){

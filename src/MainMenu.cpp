@@ -4,12 +4,15 @@
 #include "Globals.hpp"
 #include <raylib.h>
 
-MainMenu::MainMenu(Vector2 center,
-    const std::string& title,
-    const std::string& play_text,
-    const std::string& exit_text,
-    const std::string& view_unlocks_text,
-    bool show_view_unlocks) :
+MainMenu::MainMenu(
+                                        Vector2 center,
+                                        const std::string& title,
+                                        const std::string& play_text,
+                                        const std::string& exit_text,
+                                        const std::string& view_unlocks_text,
+                                        bool show_play,
+                                        bool show_view_unlocks
+                                    ) :
     main_menu_center(center),
     title_text(title),
     play_button_text(play_text),
@@ -26,7 +29,7 @@ MainMenu::MainMenu(Vector2 center,
         Color{34, 139, 34, 255},
         Color{50, 205, 50, 255},
         Color{0, 100, 0, 255},
-        1.0f, false, 10, true
+        1.0f, false, 5, true
     ),
     exit_button(
         Rectangle{
@@ -38,7 +41,7 @@ MainMenu::MainMenu(Vector2 center,
         Color{139, 0, 0, 255},
         Color{205, 92, 92, 255},
         Color{100, 0, 0, 255},
-        1.0f, false, 10, true
+        1.0f, false, 5, true
     ),
     view_unlocks_button(
         Rectangle{
@@ -50,8 +53,9 @@ MainMenu::MainMenu(Vector2 center,
         Color{0, 0, 139, 255},
         Color{65, 105, 225, 255},
         Color{0, 0, 100, 255},
-        1.0f, false, 10, true
+        1.0f, false, 5, true
     ),
+    show_play(show_play),
     show_view_unlocks(show_view_unlocks)
 {
     play_button.BindOnPressed(std::bind(&MainMenu::OnPlayPressed, this));
@@ -65,7 +69,9 @@ MainMenu::~MainMenu() {
 }
 
 void MainMenu::Update() {
-    play_button.Update(MOUSE_BUTTON_LEFT);
+    if (show_play){
+        play_button.Update(MOUSE_BUTTON_LEFT);
+    }
     exit_button.Update(MOUSE_BUTTON_LEFT);
     if (show_view_unlocks) {
         view_unlocks_button.Update(MOUSE_BUTTON_LEFT);
@@ -96,42 +102,59 @@ void MainMenu::Draw() {
     );
 
     // Draw buttons
-    play_button.Draw();
+    if (show_play){
+        play_button.Draw();
+    }
+    
     exit_button.Draw();
     if (show_view_unlocks) {
         view_unlocks_button.Draw();
     }
 
-    const int button_font_size = 30;
+    const int button_font_size = 60;
     
-    // Draw play text centered on play button
-    Vector2 play_text_size = MeasureTextEx(GetFontDefault(), play_button_text.c_str(), button_font_size, 1);
-    DrawText(
-        play_button_text.c_str(),
-        play_button.GetBounds().x + play_button.GetBounds().width/2 - play_text_size.x/2,
-        play_button.GetBounds().y + play_button.GetBounds().height/2 - play_text_size.y/2,
-        button_font_size,
-        WHITE
-    );
+    if (show_play){
+        // Draw play text centered on play button
+        Vector2 play_text_size = MeasureTextEx(GetFontDefault(), play_button_text.c_str(), button_font_size, 1);
+        DrawTextEx(
+            Globals::fonts["pacifico"],
+            play_button_text.c_str(),
+            Vector2{
+                play_button.GetBounds().x + play_button.GetBounds().width/2 - play_text_size.x/2,
+                play_button.GetBounds().y + play_button.GetBounds().height/2 - play_text_size.y/2
+            },
+            button_font_size,
+            1.f,
+            WHITE
+        );
+    }
 
     // Draw exit text centered on exit button
     Vector2 exit_text_size = MeasureTextEx(GetFontDefault(), exit_button_text.c_str(), button_font_size, 1);
-    DrawText(
+    DrawTextEx(
+        Globals::fonts["pacifico"],
         exit_button_text.c_str(),
-        exit_button.GetBounds().x + exit_button.GetBounds().width/2 - exit_text_size.x/2,
-        exit_button.GetBounds().y + exit_button.GetBounds().height/2 - exit_text_size.y/2,
+        Vector2{
+            exit_button.GetBounds().x + exit_button.GetBounds().width/2 - exit_text_size.x/2,
+            exit_button.GetBounds().y + exit_button.GetBounds().height/2 - exit_text_size.y/2
+        },
         button_font_size,
+        1.f, 
         WHITE
     );
     
     // Draw view unlocks text if button is shown
     if (show_view_unlocks) {
         Vector2 view_unlocks_text_size = MeasureTextEx(GetFontDefault(), view_unlocks_button_text.c_str(), button_font_size, 1);
-        DrawText(
+        DrawTextEx(
+            Globals::fonts["pacifico"],
             view_unlocks_button_text.c_str(),
-            view_unlocks_button.GetBounds().x + view_unlocks_button.GetBounds().width/2 - view_unlocks_text_size.x/2,
-            view_unlocks_button.GetBounds().y + view_unlocks_button.GetBounds().height/2 - view_unlocks_text_size.y/2,
+            Vector2{
+                view_unlocks_button.GetBounds().x + view_unlocks_button.GetBounds().width/2 - view_unlocks_text_size.x/2,
+                view_unlocks_button.GetBounds().y + view_unlocks_button.GetBounds().height/2 - view_unlocks_text_size.y/2
+            },
             button_font_size,
+            1.f,
             WHITE
         );
     }

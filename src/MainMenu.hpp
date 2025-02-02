@@ -21,15 +21,20 @@ class MainMenu {
         std::string exit_button_text;
         std::string view_unlocks_button_text;
         Texture2D background;
+        bool show_play = false;
         bool show_view_unlocks = false;
 
     public:
-        MainMenu(Vector2 center, 
-        const std::string& title = "Paper Garden", 
-        const std::string& play_text = "Play", 
-        const std::string& exit_text = "Exit",
-        const std::string& view_unlocks_text = "View Unlocks",
-        bool show_view_unlocks = false);
+        MainMenu(
+            Vector2 center, 
+            const std::string& title = "Paper Garden", 
+            const std::string& play_text = "Play", 
+            const std::string& exit_text = "Exit",
+            const std::string& view_unlocks_text = "View Unlocks",
+            bool show_play = false,
+            bool show_view_unlocks = false
+        );
+        
         ~MainMenu();
         void Update();
         void Draw();

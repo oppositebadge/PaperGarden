@@ -13,7 +13,8 @@ enum GameState {
     MENU,
     PLAYING,
     PAUSED,
-    VIEWING_UNLOCKS
+    VIEWING_UNLOCKS,
+    WIN
 };
 
 class Game {
@@ -21,6 +22,7 @@ private:
     GameState current_state;
     std::unique_ptr<MainMenu> main_menu = nullptr;
     std::unique_ptr<MainMenu> pause_menu = nullptr;
+    std::unique_ptr<MainMenu> win_menu = nullptr;
     std::unique_ptr<Tangram> tangram = nullptr;
     std::unique_ptr<Render3D> render3d = nullptr;
     std::unique_ptr<Sidebar> sidebar = nullptr;

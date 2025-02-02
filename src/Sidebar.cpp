@@ -68,7 +68,7 @@ void Sidebar::Update() {
 
 void Sidebar::Draw(Texture2D reference) {
     // Draw sidebar contents
-    int font_size = 80;
+    int font_size = 60;
     //DrawText("Reference", reference_rect.x + reference_rect.width/2 - 100, reference_rect.y + reference_rect.height/2 - 10, font_size, BLACK);
     //DrawTextureV(reference, Globals::pixel_render->GetCameraCenter(), WHITE);
     DrawTexturePro(reference, Rectangle{0,0,1024,1024}, reference_rect, Vector2{0,0}, 0.f, WHITE);
@@ -78,7 +78,7 @@ void Sidebar::Draw(Texture2D reference) {
     DrawTextPro(
         Globals::fonts["pacifico"],
         TextFormat("Similarity: %i", accuracy_percentage),
-        Vector2{controls_rect.x + controls_rect.width/2 - 100, controls_rect.y + controls_rect.height/2 - 10},
+        Vector2{controls_rect.x + controls_rect.width/2 - 160, controls_rect.y + controls_rect.height/2 - 10},
         Vector2{0,0},
         0.f,
         font_size,

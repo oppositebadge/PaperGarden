@@ -20,8 +20,11 @@ Game::Game() : current_state(MENU) {
     
     // Initialize components
     tangram = std::make_unique<Tangram>(Globals::pixel_render->GetCameraCenter());
-    main_menu = std::make_unique<MainMenu>(center, "   ", "Play", "Exit", "Garden", true);
-    pause_menu = std::make_unique<MainMenu>(center, "Paused", "Resume", "Main Menu", "None", false);
+
+    main_menu = std::make_unique<MainMenu>(center, "   ", "Play", "Exit", "Garden", true, true);
+    pause_menu = std::make_unique<MainMenu>(center, "Paused", "Resume", "Main Menu", "None", true,  false);
+    win_menu = std::make_unique<MainMenu>(center, "Congratulations\n on completing the game!", "None", "Main Menu", "None", false, false);
+
     sidebar = std::make_unique<Sidebar>();
     sidebar->SetOnPauseCallback([this]() {
         current_state = PAUSED;
@@ -30,26 +33,29 @@ Game::Game() : current_state(MENU) {
     render3d = std::make_unique<Render3D>();
 
     // Set up menu callbacks
-    if (main_menu) {
-        main_menu->SetOnPlayCallback([this]() { 
-            current_state = PLAYING; 
-        });
-        main_menu->SetOnExitCallback([this]() {
-            should_close = true;
-        });
-        main_menu->SetOnViewUnlocksCallback([this]() {
-            current_state = VIEWING_UNLOCKS;
-        });
-    }
+    main_menu->SetOnPlayCallback([this]() { 
+        current_state = PLAYING; 
+    });
+    main_menu->SetOnExitCallback([this]() {
+        should_close = true;
+    });
+    main_menu->SetOnViewUnlocksCallback([this]() {
+        current_state = VIEWING_UNLOCKS;
+    });
+    
 
-    if (pause_menu) {
-        pause_menu->SetOnPlayCallback([this]() { 
-            current_state = PLAYING; 
-        });
-        pause_menu->SetOnExitCallback([this]() {
-            current_state = MENU;
-        });
-    }
+
+    pause_menu->SetOnPlayCallback([this]() { 
+        current_state = PLAYING; 
+    });
+    pause_menu->SetOnExitCallback([this]() {
+        current_state = MENU;
+    });
+
+
+    win_menu->SetOnExitCallback([this]() {
+        current_state = MENU;
+    });
 }
 
 void Game::Update() {
@@ -118,6 +124,9 @@ void Game::Update() {
                 current_state = PAUSED;
             }
             break;
+        case WIN:
+            win_menu->Update();
+            break;
     }
 }
 
@@ -145,8 +154,10 @@ void Game::Draw() {
                 DrawModel(Globals::models["garden"], Vector3{0,0,0}, 0.05, WHITE);
             render3d->EndDraw();
 
-
             break;
+        case WIN:
+            win_menu->Draw();
+            break;        
     }
 }
 
@@ -156,4 +167,8 @@ void Game::OnSubmit(){
 
     Globals::UnlockAchievement(Globals::FirstMissingAchievemntId());
     current_goal = Globals::FirstMissingAchievemnt();
+
+    if (current_goal.final){
+        current_state = WIN; 
+    }
 }
