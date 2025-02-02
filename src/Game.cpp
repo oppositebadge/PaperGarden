@@ -134,8 +134,8 @@ void Game::Draw() {
     ClearBackground(RAYWHITE);
 
     // Move variable declarations before switch
-    const char* line1 = "Recreate the reference picture using the shapes";
-    const char* line2 = "Click and drag or press R to position the shapes";
+    const char* line1 = "Recreate the reference picture using tiles";
+    const char* line2 = "Click and drag to move, press R to rotate the shapes";
     int font_size = 60;
 
     switch (current_state) {
