@@ -30,6 +30,8 @@ private:
 
     Achievement current_goal; // an achievement that the player is currently working on
 
+    void OnSubmit();
+
 public:
     Game();
     void Update();

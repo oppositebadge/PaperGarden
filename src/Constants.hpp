@@ -8,6 +8,7 @@ namespace AppConstants
     const std::string WindowTitle = "Paper garden";
     const std::string GameName = "Paper Garden";
     const std::string assets_path = "assets/";
+    const std::string shaders_path = assets_path + "shaders/";
     const std::string sounds_path = assets_path + "sounds/";
     const std::string music_path = sounds_path + "music/";
 
@@ -30,6 +31,12 @@ namespace AppConstants
         return assets_path + assetName;
     }
     
+    // when loading an asset, do LoadTexture(AppConstants::GetAssetPath(bare_name.png))
+    inline std::string GetShaderAssetPath(std::string assetName)
+    {
+        return shaders_path + assetName;
+    }
+
     inline std::string GetSoundAssetPath(std::string assetName)
     {
         return sounds_path + assetName;

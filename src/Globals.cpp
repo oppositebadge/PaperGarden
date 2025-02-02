@@ -7,6 +7,7 @@ namespace Globals {
     std::shared_ptr<PixelPerfect> pixel_render = std::make_shared<PixelPerfect>();
     std::unordered_map<std::string, Texture2D> textures = {};
     std::unordered_map<std::string, Model> models = {};
+    std::unordered_map<std::string, Shader> shaders = {};
 
     std::unordered_map<int, Achievement> Achievements = {};
     std::set<int> unlockedAchievements = {};
@@ -73,67 +74,67 @@ namespace Globals {
         };
 
         Achievements[1] = Achievement{{
-                {1134.09, 857.849},
-                {1134.09, 631.575},
-                {907.817, 631.575},
-                {907.575, 857.091},
-                {1133.85, 857.091},
-                {907.575, 630.817},
-                {1218.67, 842.333},
-                {1298.67, 762.333},
-                {1138.67, 762.333},
-                {907.569, 793.137},
-                {907.569, 680},
-                {794.432, 680},
-                {794.432, 680},
-                {907.569, 680},
-                {794.432, 566.863},
-                {909.197, 632.046},
-                {1135.47, 632.046},
-                {1022.33, 518.909},
-                {1159.43, 759.569},
-                {1272.57, 759.569},
-                {1272.57, 646.431},
-                {1159.43, 759.569},
-                {1272.57, 646.431},
-                {1159.43, 646.431},
-                {1135, 650.333},
-                {1295, 650.333},
-                {1215, 570.333},
+                    {1172.67, 839.666},
+                    {1332.67, 679.666},
+                    {1012.67, 679.666},
+                    {854, 680},
+                    {1174, 680},
+                    {1014, 520},
+                    {1014, 839},
+                    {1094, 759},
+                    {1014, 679},
+                    {1173, 680},
+                    {1333, 680},
+                    {1253, 600},
+                    {1173, 680},
+                    {1253, 600},
+                    {1093, 600},
+                    {1014.67, 836},
+                    {1014.67, 676},
+                    {854.667, 676},
+                    {1095, 916},
+                    {1175, 836},
+                    {1095, 756},
+                    {1015, 836},
+                    {1095, 916},
+                    {1095, 756},
+                    {1095, 602.333},
+                    {1255, 602.333},
+                    {1175, 522.333},
             },
-            "reference_1"
+            "clue_1"
         };
     
         Achievements[2] = Achievement{{
-                {758.667, 717.333},
-                {1078.67, 717.333},
-                {918.667, 557.333},
-                {1075, 879.333},
-                {1235, 719.333},
-                {915, 719.334},
-                {999.667, 639.667},
-                {1159.67, 639.667},
-                {1079.67, 559.667},
-                {1080, 719},
-                {1160, 639},
-                {1000, 639},
-                {1080, 719},
-                {1240, 719},
-                {1160, 639},
-                {913.667, 876},
-                {913.667, 716},
-                {753.667, 716},
-                {995, 958},
-                {1075, 878},
-                {915, 878},
-                {915, 878},
-                {1075, 878},
-                {995, 798},
-                {915.333, 877.667},
-                {995.333, 797.667},
-                {915.333, 717.667},
+                {911, 680},
+                {1071, 840},
+                {1071, 520},
+                {911.667, 1000.67},
+                {1071.67, 840.667},
+                {911.667, 680.667},
+                {764.667, 518.667},
+                {924.667, 518.667},
+                {844.667, 438.667},
+                {925, 524},
+                {1085, 524},
+                {1005, 444},
+                {925, 524},
+                {1005, 444},
+                {845, 444},
+                {911, 683},
+                {1071, 523},
+                {911, 523},
+                {918.431, 444.569},
+                {1031.57, 444.569},
+                {1031.57, 331.431},
+                {918.431, 444.569},
+                {1031.57, 331.431},
+                {918.431, 331.431},
+                {1086, 525},
+                {1166, 445},
+                {1006, 445},
         },
-            "reference_2"
+            "clue_2"
         };
     }
 
@@ -151,6 +152,8 @@ namespace Globals {
 
         textures["reference_0"] = LoadTexture(AppConstants::GetAssetPath("reference_0.png").c_str());
         textures["clue_0"] = LoadTexture(AppConstants::GetAssetPath("clue_0.png").c_str());
+        textures["clue_1"] = LoadTexture(AppConstants::GetAssetPath("clue_1.png").c_str());
+        textures["clue_2"] = LoadTexture(AppConstants::GetAssetPath("clue_2.png").c_str());
         textures["leaf_outline"] = LoadTexture(AppConstants::GetAssetPath("leaf_outline.png").c_str());
     }
 
@@ -160,6 +163,24 @@ namespace Globals {
 
     void LoadModels(){
         models["garden"] = LoadModel(AppConstants::GetAssetPath("low_poly_garden/scene.gltf").c_str());
+    }
+
+    void LoadShaders(){
+        // Shader shader = LoadShader(0, AppConstants::GetShaderAssetPath("raymarching.fs").c_str());
+        // shaders["raymarching"] = shader;
+        // // Get shader locations for required uniforms
+        // int viewEyeLoc = GetShaderLocation(shader, "viewEye");
+        // int viewCenterLoc = GetShaderLocation(shader, "viewCenter");
+        // int runTimeLoc = GetShaderLocation(shader, "runTime");
+        // int resolutionLoc = GetShaderLocation(shader, "resolution");
+
+        // std::cout << "\nviewEyeLoc " << viewEyeLoc;
+        // std::cout << "\nviewCenterLoc " << viewCenterLoc;
+        // std::cout << "\nrunTimeLoc " << runTimeLoc;
+        // std::cout << "\nresolutionLoc " << resolutionLoc;
+
+        // float resolution[2] = { AppConstants::RenderWidth, AppConstants::RenderHeight };
+        // SetShaderValue(shader, resolutionLoc, resolution, SHADER_UNIFORM_VEC2);
     }
 
     void UnloadFonts(){
@@ -180,5 +201,10 @@ namespace Globals {
         }
     }
 
+    void UnloadShaders(){
+        for(auto key_shader : shaders){
+            UnloadShader(key_shader.second);
+        }
+    }
 
 }

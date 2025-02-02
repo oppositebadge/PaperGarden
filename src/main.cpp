@@ -6,6 +6,8 @@
 #include <memory>
 #include <raylib.h>
 
+#define GLSL_VERSION            330
+
 #ifdef PLATFORM_WEB
     #include <emscripten/emscripten.h>
 #endif
@@ -77,6 +79,7 @@ bool Init(){
     // Load textures before creating game instance
     Globals::LoadTextures();
     Globals::LoadModels();
+    Globals::LoadShaders();
     
     Globals::LoadFonts();
     
@@ -91,6 +94,8 @@ bool Init(){
 void Deinit(){
     Globals::pixel_render->Unload();
     Globals::UnloadFonts();
+
+    Globals::UnloadShaders();
 
     Globals::UnloadModels();
     Globals::UnloadTextures();

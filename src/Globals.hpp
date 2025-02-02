@@ -42,6 +42,7 @@ namespace Globals {
     extern std::shared_ptr<PixelPerfect> pixel_render;
     extern std::unordered_map<std::string, Texture2D> textures;
     extern std::unordered_map<std::string, Model> models;
+    extern std::unordered_map<std::string, Shader> shaders;
     extern std::unordered_map<int, Achievement> Achievements;
     extern std::set<int> unlockedAchievements;  // Keeps track of unlocked ones
 
@@ -56,8 +57,12 @@ namespace Globals {
     void LoadModels();
     void UnloadModels();
 
+    void LoadShaders();
+    void UnloadShaders();
+
     void LoadTextures();
     void UnloadTextures();
 
+    int FirstMissingAchievemntId();
     Achievement FirstMissingAchievemnt(); // retuns achievement that needs to be done as it's missing in unlockedAchievements
 }

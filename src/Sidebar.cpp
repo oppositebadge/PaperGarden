@@ -61,7 +61,9 @@ Sidebar::Sidebar() {
 
 void Sidebar::Update() {
     pause_button.Update();
-    submit_button.Update(MOUSE_BUTTON_LEFT);
+    if (accuracy_percentage >= minimum_accuracy){
+        submit_button.Update(MOUSE_BUTTON_LEFT);
+    }
 }
 
 void Sidebar::Draw(Texture2D reference) {
@@ -85,18 +87,20 @@ void Sidebar::Draw(Texture2D reference) {
         );
 
     pause_button.Draw();
-    submit_button.Draw();
     
-    // Draw submit text
-    const char* submit_text = "Submit";
-    Vector2 text_size = MeasureTextEx(GetFontDefault(), submit_text, 20, 1);
-    DrawText(
-        submit_text,
-        submit_button.GetBounds().x + (submit_button.GetBounds().width - text_size.x)/2,
-        submit_button.GetBounds().y + (submit_button.GetBounds().height - text_size.y)/2,
-        20,
-        WHITE
-    );
+    if (accuracy_percentage >= minimum_accuracy){
+        submit_button.Draw();
+        // Draw submit text
+        const char* submit_text = "Submit";
+        Vector2 text_size = MeasureTextEx(GetFontDefault(), submit_text, 20, 1);
+        DrawText(
+            submit_text,
+            submit_button.GetBounds().x + (submit_button.GetBounds().width - text_size.x)/2,
+            submit_button.GetBounds().y + (submit_button.GetBounds().height - text_size.y)/2,
+            20,
+            WHITE
+        );
+    }
 }
 
 void Sidebar::OnPausePressed() {

@@ -20,15 +20,13 @@ Game::Game() : current_state(MENU) {
     
     // Initialize components
     tangram = std::make_unique<Tangram>(Globals::pixel_render->GetCameraCenter());
-    main_menu = std::make_unique<MainMenu>(center, "   ", "Play", "Exit", "View Unlocks", true);
+    main_menu = std::make_unique<MainMenu>(center, "   ", "Play", "Exit", "Garden", true);
     pause_menu = std::make_unique<MainMenu>(center, "Paused", "Resume", "Main Menu", "None", false);
     sidebar = std::make_unique<Sidebar>();
     sidebar->SetOnPauseCallback([this]() {
         current_state = PAUSED;
     });
-    sidebar->SetOnSubmitCallback([this]() {
-        current_state = VIEWING_UNLOCKS;
-    });
+    sidebar->SetOnSubmitCallback(std::bind(&Game::OnSubmit, this));
     render3d = std::make_unique<Render3D>();
 
     // Set up menu callbacks
@@ -150,4 +148,12 @@ void Game::Draw() {
 
             break;
     }
+}
+
+void Game::OnSubmit(){
+    tangram = nullptr;
+    tangram = std::make_unique<Tangram>(Globals::pixel_render->GetCameraCenter());
+
+    Globals::UnlockAchievement(Globals::FirstMissingAchievemntId());
+    current_goal = Globals::FirstMissingAchievemnt();
 }

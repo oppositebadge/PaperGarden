@@ -34,6 +34,7 @@ class Sidebar {
         std::function<void()> on_submit_callback;
 
         int accuracy_percentage = 0;
+        int minimum_accuracy = 80;
         
         void OnPausePressed();
         void OnSubmitPressed();
