@@ -76,7 +76,10 @@ bool Init(){
 
     // Load textures before creating game instance
     Globals::LoadTextures();
+    Globals::LoadModels();
+    
     Globals::LoadFonts();
+    
     Globals::SetupAchievements();
 
     // Create game instance after window and textures are ready
@@ -87,6 +90,9 @@ bool Init(){
 
 void Deinit(){
     Globals::pixel_render->Unload();
+    Globals::UnloadFonts();
+
+    Globals::UnloadModels();
     Globals::UnloadTextures();
     //CloseAudioDevice();
 }

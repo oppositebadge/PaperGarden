@@ -41,6 +41,7 @@ namespace Globals {
     // render can be accessed from anywhere
     extern std::shared_ptr<PixelPerfect> pixel_render;
     extern std::unordered_map<std::string, Texture2D> textures;
+    extern std::unordered_map<std::string, Model> models;
     extern std::unordered_map<int, Achievement> Achievements;
     extern std::set<int> unlockedAchievements;  // Keeps track of unlocked ones
 
@@ -50,6 +51,10 @@ namespace Globals {
     extern std::unordered_map<std::string, Font> fonts;
 
     void LoadFonts();
+    void UnloadFonts();
+
+    void LoadModels();
+    void UnloadModels();
 
     void LoadTextures();
     void UnloadTextures();

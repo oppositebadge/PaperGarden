@@ -1,11 +1,13 @@
 #include "Globals.hpp"
 #include "Achievements.hpp"
 #include "Constants.hpp"
+#include <raylib.h>
 
 namespace Globals {
     std::shared_ptr<PixelPerfect> pixel_render = std::make_shared<PixelPerfect>();
     std::unordered_map<std::string, Texture2D> textures = {};
-    
+    std::unordered_map<std::string, Model> models = {};
+
     std::unordered_map<int, Achievement> Achievements = {};
     std::set<int> unlockedAchievements = {};
     std::unordered_map<std::string, Font> fonts = {};
@@ -138,7 +140,7 @@ namespace Globals {
     void UnlockAchievement(int id){
         unlockedAchievements.insert(id);
     }
-
+    
     void LoadTextures(){
         // textures["name"] = LoadTexture(AppConstants::GetAssetPath("name.png"))
         // then to use: Globals::textures["name"]
@@ -155,10 +157,8 @@ namespace Globals {
         fonts["pacifico"] = LoadFontEx(AppConstants::GetAssetPath("Pacifico-Regular.ttf").c_str(), 60, NULL, 0);
     }
 
-    void UnloadTextures(){
-        for(auto key_texture : textures){
-            UnloadTexture(key_texture.second);
-        }
+    void LoadModels(){
+        models["garden"] = LoadModel(AppConstants::GetAssetPath("low_poly_garden/scene.gltf").c_str());
     }
 
     void UnloadFonts(){
@@ -166,4 +166,18 @@ namespace Globals {
             UnloadFont(key_font.second);
         }
     }
+
+    void UnloadModels(){
+        for(auto key_model : models){
+            UnloadModel(key_model.second);
+        }
+    }
+
+    void UnloadTextures(){
+        for(auto key_texture : textures){
+            UnloadTexture(key_texture.second);
+        }
+    }
+
+
 }

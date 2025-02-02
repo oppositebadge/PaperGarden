@@ -140,7 +140,8 @@ void Game::Draw() {
         case VIEWING_UNLOCKS:
 
             render3d->BeginDraw();
-                DrawGrid(20, 10.0f);
+                //DrawGrid(20, 10.0f);
+                DrawModel(Globals::models["garden"], Vector3{0,0,0}, 0.05, WHITE);
             render3d->EndDraw();
 
             break;
