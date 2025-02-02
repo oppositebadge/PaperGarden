@@ -31,13 +31,10 @@ class Sidebar {
         Texture2D pause_black_icon;
         Texture2D pause_white_icon;
         std::function<void()> on_pause_callback;
-<<<<<<< Updated upstream
+        std::function<void()> on_submit_callback;
 
         int accuracy_percentage = 0;
-
-=======
-        std::function<void()> on_submit_callback;
->>>>>>> Stashed changes
+        
         void OnPausePressed();
         void OnSubmitPressed();
 };

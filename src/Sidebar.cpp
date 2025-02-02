@@ -72,32 +72,6 @@ void Sidebar::Draw(Texture2D reference) {
     DrawTexturePro(reference, Rectangle{0,0,1024,1024}, reference_rect, Vector2{0,0}, 0.f, WHITE);
     DrawRectangleRoundedLinesEx(reference_rect, 0.05f, 5, border_width, border_color);
     
-<<<<<<< Updated upstream
-=======
-    // Get the heart outline texture
-    Texture2D leaf = Globals::textures["leaf_outline"];
-    
-    // Calculate scaling to fit in reference rect while maintaining aspect ratio
-    float scale = fmin(
-        (reference_rect.width - 20) / leaf.width,
-        (reference_rect.height - 40) / leaf.height
-    );
-    
-    // Calculate centered position
-    float leaf_x = reference_rect.x + (reference_rect.width - (leaf.width * scale)) / 2;
-    float leaf_y = reference_rect.y + (reference_rect.height - (leaf.height * scale)) / 2;
-
-    // Draw the heart outline scaled and centered
-    DrawTexturePro(
-        leaf,
-        Rectangle{0, 0, (float)leaf.width, (float)leaf.height},
-        Rectangle{leaf_x, leaf_y, leaf.width * scale, leaf.height * scale},
-        Vector2{0, 0},
-        0.0f,
-        WHITE
-    );
-
->>>>>>> Stashed changes
     DrawRectangleRoundedLinesEx(controls_rect, 0.05f, 5, border_width, border_color);
     DrawTextPro(
         Globals::fonts["pacifico"],
