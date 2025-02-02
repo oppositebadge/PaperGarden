@@ -96,7 +96,7 @@ private:
     std::vector<Tile> tiles = {};
 
     // similarity rating
-    float max_deviation = 3000;
+    float max_deviation = 60000;
     int error_margin_snap = 15;
 
     // taking picture

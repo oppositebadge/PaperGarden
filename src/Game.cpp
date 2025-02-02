@@ -10,6 +10,9 @@
 #include <raylib.h>
 
 Game::Game() : current_state(MENU) {
+
+    current_goal = Globals::FirstMissingAchievemnt();
+
     Vector2 center = {
         static_cast<float>(GetScreenWidth()) / 2,
         static_cast<float>(GetScreenHeight()) / 2
@@ -90,7 +93,12 @@ void Game::Update() {
                 tangram->TakePicture();
             }
         
-            sidebar->Update();  
+            {
+                int percent = tangram->RatePointsSimilarityFromCenter(current_goal.reference_points);
+                sidebar->SetAccuracyPercentage(percent);
+                sidebar->Update();
+            }
+            
             break;
 
         case PAUSED:
@@ -99,6 +107,7 @@ void Game::Update() {
             }
             pause_menu->Update();
             break;
+
         case VIEWING_UNLOCKS:
             render3d->Update();
             break;
@@ -115,11 +124,12 @@ void Game::Draw() {
 
         case PLAYING:
             tangram->Draw();
-            sidebar->Draw();
+            sidebar->Draw(Globals::textures[current_goal.reference_image_name]);
             break;
 
         case PAUSED:
             pause_menu->Draw();
+
             break;
         case VIEWING_UNLOCKS:
 

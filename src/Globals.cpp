@@ -26,41 +26,40 @@ namespace Globals {
                 {}, "",
                 true // final achievement
             };
-        }
-        
+        }   
     }
 
     void SetupAchievements(){
         Achievements[0] = Achievement{{
-                {989.242, 921.849},
-                {1215.52, 695.575},
-                {989.242, 695.575},
-                {991.425, 922.516},
-                {991.425, 696.242},
-                {765.151, 696.242},
-                {833.667, 540.667},
-                {993.667, 540.667},
-                {913.667, 460.667},
-                {989, 541},
-                {1069, 621},
-                {1069, 461},
-                {989, 701},
-                {1069, 621},
-                {989, 541},
-                {987.667, 697},
-                {987.667, 537},
-                {827.667, 537},
-                {990, 540},
-                {1070, 460},
-                {990, 380},
-                {910, 460},
-                {990, 540},
-                {990, 380},
-                {1070.33, 622.667},
-                {1150.33, 542.667},
-                {1070.33, 462.667},
+                    {1009.24, 909.849},
+                    {1235.52, 683.575},
+                    {1009.24, 683.575},
+                    {1009.42, 910.516},
+                    {1009.42, 684.242},
+                    {783.151, 684.242},
+                    {851.667, 528.667},
+                    {1011.67, 528.667},
+                    {931.667, 448.667},
+                    {1010, 528},
+                    {1090, 608},
+                    {1090, 448},
+                    {1010, 688},
+                    {1090, 608},
+                    {1010, 528},
+                    {1010.67, 687},
+                    {1010.67, 527},
+                    {850.667, 527},
+                    {1011, 530},
+                    {1091, 450},
+                    {1011, 370},
+                    {931, 450},
+                    {1011, 530},
+                    {1011, 370},
+                    {1089.33, 608.667},
+                    {1169.33, 528.667},
+                    {1089.33, 448.667},
             },
-            "reference_0.png"
+            "clue_0"
         };
 
         Achievements[1] = Achievement{{
@@ -92,7 +91,7 @@ namespace Globals {
                 {1295, 650.333},
                 {1215, 570.333},
             },
-            "reference_1.png"
+            "reference_1"
         };
     
         Achievements[2] = Achievement{{
@@ -124,8 +123,12 @@ namespace Globals {
                 {995.333, 797.667},
                 {915.333, 717.667},
         },
-            "reference_2.png"
+            "reference_2"
         };
+    }
+
+    void UnlockAchievement(int id){
+        unlockedAchievements.insert(id);
     }
 
     void LoadTextures(){
@@ -135,6 +138,9 @@ namespace Globals {
         textures["pause_black"] = LoadTexture(AppConstants::GetAssetPath("pause_black.png").c_str());
         textures["pause_white"] = LoadTexture(AppConstants::GetAssetPath("pause_white.png").c_str()); 
         textures["main_menu_background"] = LoadTexture(AppConstants::GetAssetPath("Paper_Garden.png").c_str());
+
+        textures["reference_0"] = LoadTexture(AppConstants::GetAssetPath("reference_0.png").c_str());
+        textures["clue_0"] = LoadTexture(AppConstants::GetAssetPath("clue_0.png").c_str());
     }
 
     void LoadFonts(){

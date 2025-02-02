@@ -76,6 +76,7 @@ bool Init(){
 
     // Load textures before creating game instance
     Globals::LoadTextures();
+    Globals::SetupAchievements();
 
     // Create game instance after window and textures are ready
     game = std::make_unique<Game>();
@@ -86,7 +87,7 @@ bool Init(){
 void Deinit(){
     Globals::pixel_render->Unload();
     Globals::UnloadTextures();
-    CloseAudioDevice();
+    //CloseAudioDevice();
 }
 
 void SetWorkingDirectoryToLocal(){

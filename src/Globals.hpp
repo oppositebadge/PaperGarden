@@ -44,9 +44,13 @@ namespace Globals {
     extern std::unordered_map<int, Achievement> Achievements;
     extern std::set<int> unlockedAchievements;  // Keeps track of unlocked ones
 
+    void UnlockAchievement(int id);
+
     void SetupAchievements();
     extern std::unordered_map<std::string, Font> fonts;
 
     void LoadTextures();
     void UnloadTextures();
+
+    Achievement FirstMissingAchievemnt(); // retuns achievement that needs to be done as it's missing in unlockedAchievements
 }

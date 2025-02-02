@@ -4,6 +4,13 @@
 
 #include <raylib.h>
 
+Color GetPercentColor(int percent){
+    if (percent >= 90) return GREEN;
+    else if (percent >= 70) return YELLOW;
+    else if (percent >= 50) return ORANGE;
+    else return RED;
+}
+
 Sidebar::Sidebar() {
 
     pause_black_icon = Globals::textures["pause_black"];
@@ -41,12 +48,17 @@ void Sidebar::Update() {
     pause_button.Update();
 }
 
-void Sidebar::Draw() {
+void Sidebar::Draw(Texture2D reference) {
     // Draw sidebar contents
+    int font_size = 40;
+    //DrawText("Reference", reference_rect.x + reference_rect.width/2 - 100, reference_rect.y + reference_rect.height/2 - 10, font_size, BLACK);
+    //DrawTextureV(reference, Globals::pixel_render->GetCameraCenter(), WHITE);
+    DrawTexturePro(reference, Rectangle{0,0,1024,1024}, reference_rect, Vector2{0,0}, 0.f, WHITE);
     DrawRectangleRoundedLinesEx(reference_rect, 0.05f, 5, border_width, border_color);
-    DrawText("Reference", reference_rect.x + reference_rect.width/2 - 50, reference_rect.y + reference_rect.height/2 - 10, 20, BLACK);
+    
     DrawRectangleRoundedLinesEx(controls_rect, 0.05f, 5, border_width, border_color);
-    DrawText("Time", controls_rect.x + controls_rect.width/2 - 50, controls_rect.y + controls_rect.height/2 - 10, 20, BLACK);
+    DrawText(TextFormat("Similarity: %i", accuracy_percentage), controls_rect.x + controls_rect.width/2 - 100, controls_rect.y + controls_rect.height/2 - 10, font_size, GetPercentColor(accuracy_percentage));
+
     pause_button.Draw();
 }
 

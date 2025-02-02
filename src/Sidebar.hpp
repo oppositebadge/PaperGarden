@@ -8,8 +8,12 @@ class Sidebar {
     public:
         Sidebar();
         void Update();
-        void Draw();
+        void Draw(Texture2D reference);
         void SetOnPauseCallback(std::function<void()> callback) { on_pause_callback = callback; }
+
+        void SetAccuracyPercentage(int percent){
+            accuracy_percentage = percent;
+        }
 
     private:
         float width;
@@ -25,5 +29,8 @@ class Sidebar {
         Texture2D pause_black_icon;
         Texture2D pause_white_icon;
         std::function<void()> on_pause_callback;
+
+        int accuracy_percentage = 0;
+
         void OnPausePressed();
 };
