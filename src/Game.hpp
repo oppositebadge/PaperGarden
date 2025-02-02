@@ -4,7 +4,6 @@
 #include "Tangram.hpp"
 #include "MainMenu.hpp"
 #include "Sidebar.hpp"
-
 #include <Render3D.hpp>
 
 #include <raylib.h>
