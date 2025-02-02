@@ -176,8 +176,11 @@ namespace Globals {
     }
 
     void LoadMusic(){
-        current_music = "zeroth";
-        LoadMusicGlobal(current_music);
+        LoadMusicGlobal("lofi");
+        LoadMusicGlobal("japanese");
+        LoadMusicGlobal("garden_theme");
+
+        current_music = "lofi";
         PlayMusicStream(music_map[current_music]);
     }
 

@@ -43,6 +43,8 @@ int main(){
 
 void UpdateDrawFrame(void){
 
+    Globals::MusicUpdate();
+
     Globals::pixel_render->Update();
 
     game->Update();
@@ -65,6 +67,9 @@ bool Init(){
         return false;
     }
 
+    InitAudioDevice();
+    SetAudioStreamBufferSizeDefault(4096);
+
     SetExitKey(KEY_NULL);  // Disable default ESC key exit behavior
 
     // Initialize render buffer
@@ -76,6 +81,9 @@ bool Init(){
     );
 
     // Load textures before creating game instance
+    Globals::LoadMusic();
+    Globals::LoadSounds();
+    
     Globals::LoadTextures();
     Globals::LoadModels();
     Globals::LoadShaders();
@@ -91,6 +99,10 @@ bool Init(){
 }
 
 void Deinit(){
+
+    Globals::UnloadMusic();
+    Globals::UnloadSounds();
+
     Globals::pixel_render->Unload();
     Globals::UnloadFonts();
 
@@ -98,7 +110,7 @@ void Deinit(){
 
     Globals::UnloadModels();
     Globals::UnloadTextures();
-    //CloseAudioDevice();
+    CloseAudioDevice();
 }
 
 void SetWorkingDirectoryToLocal(){

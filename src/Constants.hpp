@@ -13,7 +13,7 @@ namespace AppConstants
     const std::string shaders_path = assets_path + "shaders/";
     const std::string fonts_path = assets_path + "fonts/";
     const std::string sounds_path = assets_path + "sounds/";
-    const std::string music_path = sounds_path + "music/";
+    const std::string music_path = assets_path + "music/";
 
     // Virtual resolution for consistent rendering
     const int RenderWidth = 1920;
