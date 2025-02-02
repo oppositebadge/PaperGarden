@@ -20,8 +20,8 @@ Game::Game() : current_state(MENU) {
     
     // Initialize components
     tangram = std::make_unique<Tangram>(Globals::pixel_render->GetCameraCenter());
-    main_menu = std::make_unique<MainMenu>(center, "   ", "Play", "Exit");
-    pause_menu = std::make_unique<MainMenu>(center, "Paused", "Resume", "Main Menu");
+    main_menu = std::make_unique<MainMenu>(center, "   ", "Play", "Exit", "View Unlocks", true);
+    pause_menu = std::make_unique<MainMenu>(center, "Paused", "Resume", "Main Menu", "None", false);
     sidebar = std::make_unique<Sidebar>();
     sidebar->SetOnPauseCallback([this]() {
         current_state = PAUSED;
@@ -35,6 +35,9 @@ Game::Game() : current_state(MENU) {
         });
         main_menu->SetOnExitCallback([this]() {
             should_close = true;
+        });
+        main_menu->SetOnViewUnlocksCallback([this]() {
+            current_state = VIEWING_UNLOCKS;
         });
     }
 
@@ -109,7 +112,9 @@ void Game::Update() {
             break;
 
         case VIEWING_UNLOCKS:
-            render3d->Update();
+            if (IsKeyPressed(KEY_ESCAPE)) {
+                current_state = PAUSED;
+            }
             break;
     }
 }
