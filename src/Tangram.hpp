@@ -16,7 +16,7 @@ struct Triangle{
     }
     
     void DrawLines(Color color){
-        float thick = 20.f;
+        float thick = 5.f;
         DrawLineEx(points[0], points[1], thick, color);
         DrawLineEx(points[0], points[2], thick, color);
         DrawLineEx(points[1], points[2], thick, color);
@@ -50,6 +50,15 @@ struct Triangle{
 struct Tile {
     std::vector<Triangle> trigs;
     Color color;
+
+    bool CollisionWithPoint(Vector2 point){
+        for (auto&& trig : trigs){
+            if (CheckCollisionPointTriangle(point, trig.points[0], trig.points[1], trig.points[2])){
+                return true;
+            }
+        }
+        return false;
+    }
 
     Vector2 CalculateCenter(){
         Vector2 sum = {0,0};
@@ -163,7 +172,8 @@ public:
 
     void Draw(){
         for (auto tile : tiles){
-            tile.DrawLines(Globals::pico_black);
+            tile.DrawLines(
+                (tile.CollisionWithPoint(Globals::pixel_render->GetMouseWorldPos())) ? Globals::pico_black : Globals::pico_white);
             tile.Draw();
         }
     }
@@ -171,11 +181,9 @@ public:
     std::vector<Tile> GetTiles() { return tiles; }
 
     int GetIdAtPoint(Vector2 point){
-        for (int i = 0; i < tiles.size(); i++){            
-            for (auto&& trig : tiles[i].trigs){
-                if (CheckCollisionPointTriangle(point, trig.points[0], trig.points[1], trig.points[2])){
-                    return i;
-                }
+        for (int i = 0; i < tiles.size(); i++){        
+            if (tiles[i].CollisionWithPoint(point)){
+                return i;
             }
         }
         return -1;
@@ -185,11 +193,9 @@ public:
         for (auto&& tile : tiles){
             bool overlaps = false;
             
-            for (auto&& trig : tile.trigs){
-                if (CheckCollisionPointTriangle(point, trig.points[0], trig.points[1], trig.points[2])){
-                    overlaps = true;
-                    break;
-                }
+            if (tile.CollisionWithPoint(point)){
+                overlaps = true;
+                break;
             }
 
             if (overlaps){
@@ -205,11 +211,9 @@ public:
         for (auto&& tile : tiles){
             bool overlaps = false;
             
-            for (auto&& trig : tile.trigs){
-                if (CheckCollisionPointTriangle(point, trig.points[0], trig.points[1], trig.points[2])){
-                    overlaps = true;
-                    break;
-                }
+            if (tile.CollisionWithPoint(point)){
+                overlaps = true;
+                break;
             }
 
             if (overlaps){

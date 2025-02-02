@@ -88,4 +88,6 @@ namespace Globals {
     void MusicResume();
     void MusicPlayFromBeginning();
     bool IsCurrentMusicPlaying();
+
+    void PlaySoundOnButtonHovered(); // for binding to different buttons
 }

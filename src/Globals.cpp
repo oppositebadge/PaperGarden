@@ -2,6 +2,7 @@
 #include "Achievements.hpp"
 #include "Constants.hpp"
 #include <raylib.h>
+#include <string>
 
 #define IMAGE_EXT ".png"
 #define FONT_EXT ".ttf"
@@ -167,6 +168,8 @@ namespace Globals {
 
     void LoadSounds(){
         //LoadSoundGlobal(sound);
+        Globals::sounds["low7"] = SoundMulti{};
+        Globals::sounds["low7"].Load( AppConstants::GetSoundAssetPath(std::string("Short - Low/Classic UI SFX - Short - Low #7")+SOUND_EXT).c_str() );
     }
 
     void UnloadSounds(){
@@ -177,10 +180,15 @@ namespace Globals {
 
     void LoadMusic(){
         LoadMusicGlobal("lofi");
+        SetMusicVolume(music_map["lofi"], 0.1);
+        
+        LoadMusicGlobal("alex-productions-breakfast-in-paris");
+        SetMusicVolume(music_map["alex-productions-breakfast-in-paris"], 0.7);
+
         LoadMusicGlobal("japanese");
         LoadMusicGlobal("garden_theme");
 
-        current_music = "lofi";
+        current_music = "alex-productions-breakfast-in-paris";
         PlayMusicStream(music_map[current_music]);
     }
 
@@ -204,7 +212,7 @@ namespace Globals {
 
         LoadTextureGlobal("clue_0");
         LoadTextureGlobal("clue_1");
-        LoadTextureGlobal("clue_1");
+        LoadTextureGlobal("clue_2");
         LoadTextureGlobal("leaf_outline");
     }
 
@@ -287,4 +295,7 @@ namespace Globals {
         return IsMusicStreamPlaying(music_map[current_music]);
     }
 
+    void PlaySoundOnButtonHovered(){
+        PlaySound("low7");
+    }
 }
