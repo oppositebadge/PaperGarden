@@ -112,6 +112,7 @@ void Game::Update() {
             break;
 
         case VIEWING_UNLOCKS:
+            render3d->Update();
             if (IsKeyPressed(KEY_ESCAPE)) {
                 current_state = PAUSED;
             }

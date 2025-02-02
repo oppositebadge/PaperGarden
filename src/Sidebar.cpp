@@ -50,14 +50,23 @@ void Sidebar::Update() {
 
 void Sidebar::Draw(Texture2D reference) {
     // Draw sidebar contents
-    int font_size = 40;
+    int font_size = 80;
     //DrawText("Reference", reference_rect.x + reference_rect.width/2 - 100, reference_rect.y + reference_rect.height/2 - 10, font_size, BLACK);
     //DrawTextureV(reference, Globals::pixel_render->GetCameraCenter(), WHITE);
     DrawTexturePro(reference, Rectangle{0,0,1024,1024}, reference_rect, Vector2{0,0}, 0.f, WHITE);
     DrawRectangleRoundedLinesEx(reference_rect, 0.05f, 5, border_width, border_color);
     
     DrawRectangleRoundedLinesEx(controls_rect, 0.05f, 5, border_width, border_color);
-    DrawText(TextFormat("Similarity: %i", accuracy_percentage), controls_rect.x + controls_rect.width/2 - 100, controls_rect.y + controls_rect.height/2 - 10, font_size, GetPercentColor(accuracy_percentage));
+    DrawTextPro(
+        Globals::fonts["pacifico"],
+        TextFormat("Similarity: %i", accuracy_percentage),
+        Vector2{controls_rect.x + controls_rect.width/2 - 100, controls_rect.y + controls_rect.height/2 - 10},
+        Vector2{0,0},
+        0.f,
+        font_size,
+        1.0f,
+        GetPercentColor(accuracy_percentage)
+        );
 
     pause_button.Draw();
 }

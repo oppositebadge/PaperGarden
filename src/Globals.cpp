@@ -10,23 +10,31 @@ namespace Globals {
     std::set<int> unlockedAchievements = {};
     std::unordered_map<std::string, Font> fonts = {};
     
-    Achievement FirstMissingAchievemnt(){
+    int FirstMissingAchievemntId(){
         int expected = 0;
         for (int achieved : unlockedAchievements) {
             if (achieved != expected) {
-                return Achievements[expected];  // Found the first missing key
+                return expected;  // Found the first missing key
             }
             expected++;
         }
         if (Achievements.find(expected) != Achievements.end()){
-            return Achievements[expected];  // If no gaps, return the next number in sequence
+            return expected;
+        }
+        else return -1;
+    }
+
+    Achievement FirstMissingAchievemnt(){
+        int id = FirstMissingAchievemntId();
+        if (id >= 0){
+            return Achievements[id];
         }
         else {
             return Achievement{
                 {}, "",
                 true // final achievement
             };
-        }   
+        }
     }
 
     void SetupAchievements(){

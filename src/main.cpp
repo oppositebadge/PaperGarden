@@ -76,6 +76,7 @@ bool Init(){
 
     // Load textures before creating game instance
     Globals::LoadTextures();
+    Globals::LoadFonts();
     Globals::SetupAchievements();
 
     // Create game instance after window and textures are ready

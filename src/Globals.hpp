@@ -49,6 +49,8 @@ namespace Globals {
     void SetupAchievements();
     extern std::unordered_map<std::string, Font> fonts;
 
+    void LoadFonts();
+
     void LoadTextures();
     void UnloadTextures();
 
