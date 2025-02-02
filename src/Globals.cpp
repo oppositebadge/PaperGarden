@@ -8,6 +8,7 @@ namespace Globals {
     
     std::unordered_map<int, Achievement> Achievements = {};
     std::set<int> unlockedAchievements = {};
+    std::unordered_map<std::string, Font> fonts = {};
     
     Achievement FirstMissingAchievemnt(){
         int expected = 0;
@@ -31,11 +32,6 @@ namespace Globals {
 
     void SetupAchievements(){
         Achievements[0] = Achievement{{
-    std::unordered_map<int, Unlock> unlocks = {};
-    std::unordered_map<std::string, Font> fonts = {};
-
-    void SetupUnlocks(){
-        unlocks[0] = Unlock{{
                 {989.242, 921.849},
                 {1215.52, 695.575},
                 {989.242, 695.575},
@@ -138,7 +134,7 @@ namespace Globals {
         textures["image"] = LoadTexture(AppConstants::GetAssetPath("image.png").c_str());
         textures["pause_black"] = LoadTexture(AppConstants::GetAssetPath("pause_black.png").c_str());
         textures["pause_white"] = LoadTexture(AppConstants::GetAssetPath("pause_white.png").c_str()); 
-        textures["main_menu_background"] = LoadTexture(AppConstants::GetAssetPath("Paper_Garden.jpg").c_str());
+        textures["main_menu_background"] = LoadTexture(AppConstants::GetAssetPath("Paper_Garden.png").c_str());
     }
 
     void LoadFonts(){

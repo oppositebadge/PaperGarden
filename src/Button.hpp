@@ -28,6 +28,7 @@ class Button{
         std::function<void()> on_released = 0;
 
     public:
+        Button() {}
         Button(Rectangle ButtonRect, Texture2D TextureDefault, Texture2D TextureHovered, Texture2D TexturePressed, float SecShowPressed, bool CheckboxVal, bool Active = true);
         Button(Rectangle ButtonRect, Color ColorDefault, Color ColorHovered, Color ColorPressed, float SecShowPressed, bool CheckboxVal, float Thickness = 10, bool Active = true);
 

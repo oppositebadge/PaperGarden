@@ -1,13 +1,15 @@
 #include "Sidebar.hpp"
 #include "Constants.hpp"
-#include <iostream>  // for std::cout
-#include <raylib.h>  // for IsTextureReady()
 #include "Globals.hpp"
 
-Sidebar::Sidebar() :
-    pause_black_icon(Globals::textures["pause_black"]),
-    pause_white_icon(Globals::textures["pause_white"]),
-    pause_button(
+#include <raylib.h>
+
+Sidebar::Sidebar() {
+
+    pause_black_icon = Globals::textures["pause_black"];
+    pause_white_icon = Globals::textures["pause_white"];
+
+    pause_button = Button(
         Rectangle{0, 0, 60, 60},
         pause_black_icon,
         pause_white_icon,
@@ -15,11 +17,10 @@ Sidebar::Sidebar() :
         1.0f,             // SecShowPressed
         false,            // CheckboxVal
         true             // Active
-    ) {
-    
+    );
 
     width = AppConstants::SidebarWidth;
-    height = AppConstants::SidebarHeight * 40/100;
+    height = AppConstants::SidebarHeight * 40.f/100;
     margin = 10;
     x = 0 + margin;
     y = 0 + margin;
@@ -33,7 +34,7 @@ Sidebar::Sidebar() :
         controls_rect.y + controls_rect.height - 70  // 10px margin from bottom
     );
 
-    std::cout << IsTextureValid(pause_black_icon) << std::endl;
+    //std::cout << IsTextureValid(pause_black_icon) << std::endl;
 }
 
 void Sidebar::Update() {
