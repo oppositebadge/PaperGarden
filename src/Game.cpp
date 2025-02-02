@@ -159,7 +159,6 @@ void Game::Draw() {
             );
             }
 
-
             tangram->Draw();
             sidebar->Draw(Globals::textures[current_goal.reference_image_name]);
             

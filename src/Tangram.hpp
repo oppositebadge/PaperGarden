@@ -3,6 +3,7 @@
 #include "Globals.hpp"
 
 #include <algorithm>
+#include <iostream>
 #include <raylib.h>
 
 #include <raymath.h>
@@ -195,7 +196,6 @@ public:
             
             if (tile.CollisionWithPoint(point)){
                 overlaps = true;
-                break;
             }
 
             if (overlaps){
@@ -213,7 +213,6 @@ public:
             
             if (tile.CollisionWithPoint(point)){
                 overlaps = true;
-                break;
             }
 
             if (overlaps){
@@ -230,6 +229,7 @@ public:
     }
 
     void RotateTile(int id, float delta_r){
+        std::cout << id << '\n';
         tiles[id].Rotate(delta_r);
     }
 
