@@ -53,7 +53,6 @@ void UpdateDrawFrame(void){
     BeginDrawing();
         ClearBackground(BLACK);
         Globals::pixel_render->DrawResult();
-        DrawFPS(100, 100);
     EndDrawing();
 }
 

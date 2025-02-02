@@ -3,11 +3,38 @@
 #include "Constants.hpp"
 #include <raylib.h>
 
+#define IMAGE_EXT ".png"
+#define FONT_EXT ".ttf"
+#define MUSIC_EXT ".wav"
+#define SOUND_EXT ".wav"
+
+void LoadMusicGlobal(std::string name){
+    Globals::music_map[name] = LoadMusicStream( AppConstants::GetMusicPath(name + MUSIC_EXT).c_str() );
+}
+
+void LoadTextureGlobal(std::string name){
+    Globals::textures[name] = LoadTexture( AppConstants::GetAssetPath(name+IMAGE_EXT).c_str() );
+}
+
+void LoadSoundGlobal(std::string name){
+    Globals::sounds[name] = SoundMulti{};
+    Globals::sounds[name].Load( AppConstants::GetSoundAssetPath(name+SOUND_EXT).c_str() );
+}
+
+void LoadFontGlobal(std::string name){
+    Globals::fonts[name] = LoadFontEx(AppConstants::GetFontAssetPath(name+FONT_EXT).c_str(), 60, NULL, 0);
+}
+
 namespace Globals {
     std::shared_ptr<PixelPerfect> pixel_render = std::make_shared<PixelPerfect>();
     std::unordered_map<std::string, Texture2D> textures = {};
     std::unordered_map<std::string, Model> models = {};
     std::unordered_map<std::string, Shader> shaders = {};
+
+    std::unordered_map<std::string, SoundMulti> sounds = {};
+    std::unordered_map<std::string, Music> music_map = {};
+    std::string current_music = "";
+    bool music_playing = true;
 
     std::unordered_map<int, Achievement> Achievements = {};
     std::set<int> unlockedAchievements = {};
@@ -138,6 +165,26 @@ namespace Globals {
         };
     }
 
+    void LoadSounds(){
+        //LoadSoundGlobal(sound);
+    }
+
+    void UnloadSounds(){
+        for (auto key_sound : sounds){
+            key_sound.second.Unload();
+        }
+    }
+
+    void LoadMusic(){
+        current_music = "zeroth";
+        LoadMusicGlobal(current_music);
+        PlayMusicStream(music_map[current_music]);
+    }
+
+    void UnloadMusic(){
+        UnloadMusicStream(music_map[current_music]);
+    }
+
     void UnlockAchievement(int id){
         unlockedAchievements.insert(id);
     }
@@ -145,16 +192,16 @@ namespace Globals {
     void LoadTextures(){
         // textures["name"] = LoadTexture(AppConstants::GetAssetPath("name.png"))
         // then to use: Globals::textures["name"]
-        textures["image"] = LoadTexture(AppConstants::GetAssetPath("image.png").c_str());
-        textures["pause_black"] = LoadTexture(AppConstants::GetAssetPath("pause_black.png").c_str());
-        textures["pause_white"] = LoadTexture(AppConstants::GetAssetPath("pause_white.png").c_str()); 
+        LoadTextureGlobal("pause_black");
+        LoadTextureGlobal("pause_white");
         textures["main_menu_background"] = LoadTexture(AppConstants::GetAssetPath("Paper_Garden.png").c_str());
 
-        textures["reference_0"] = LoadTexture(AppConstants::GetAssetPath("reference_0.png").c_str());
-        textures["clue_0"] = LoadTexture(AppConstants::GetAssetPath("clue_0.png").c_str());
-        textures["clue_1"] = LoadTexture(AppConstants::GetAssetPath("clue_1.png").c_str());
-        textures["clue_2"] = LoadTexture(AppConstants::GetAssetPath("clue_2.png").c_str());
-        textures["leaf_outline"] = LoadTexture(AppConstants::GetAssetPath("leaf_outline.png").c_str());
+        LoadTextureGlobal("reference_0");
+
+        LoadTextureGlobal("clue_0");
+        LoadTextureGlobal("clue_1");
+        LoadTextureGlobal("clue_1");
+        LoadTextureGlobal("leaf_outline");
     }
 
     void LoadFonts(){
@@ -207,6 +254,33 @@ namespace Globals {
         for(auto key_shader : shaders){
             UnloadShader(key_shader.second);
         }
+    }
+
+    void PlaySound(const char* name){
+        sounds[name].Play();
+    }
+
+    void MusicUpdate(){
+        UpdateMusicStream(music_map[current_music]);
+    }
+
+    void MusicStop(){
+        StopMusicStream(music_map[current_music]);
+    }
+
+    void MusicResume(){
+        if (music_playing) ResumeMusicStream(music_map[current_music]);
+    }
+
+    void MusicPlayFromBeginning(){
+        if (music_playing) {
+            SeekMusicStream(music_map[current_music], 0.0f);
+            PlayMusicStream(music_map[current_music]);
+        }
+    }
+
+    bool IsCurrentMusicPlaying(){
+        return IsMusicStreamPlaying(music_map[current_music]);
     }
 
 }

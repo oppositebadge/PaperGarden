@@ -3,6 +3,8 @@
 
 #include "Achievements.hpp"
 
+#include <SoundMulti.hpp>
+
 #include <PixelPerfect.hpp>
 #include <raylib.h>
 #include <string>
@@ -43,8 +45,20 @@ namespace Globals {
     extern std::unordered_map<std::string, Texture2D> textures;
     extern std::unordered_map<std::string, Model> models;
     extern std::unordered_map<std::string, Shader> shaders;
+    
+    extern std::unordered_map<std::string, SoundMulti> sounds;
+    extern std::unordered_map<std::string, Music> music_map;
+    extern std::string current_music;
+    extern bool music_playing;
+
     extern std::unordered_map<int, Achievement> Achievements;
     extern std::set<int> unlockedAchievements;  // Keeps track of unlocked ones
+
+    void LoadMusic();
+    void UnloadMusic();
+
+    void LoadSounds();
+    void UnloadSounds();
 
     void UnlockAchievement(int id);
 
@@ -63,6 +77,15 @@ namespace Globals {
     void LoadTextures();
     void UnloadTextures();
 
+
+
     int FirstMissingAchievemntId();
     Achievement FirstMissingAchievemnt(); // retuns achievement that needs to be done as it's missing in unlockedAchievements
+
+    void PlaySound(const char* name);
+    void MusicUpdate();
+    void MusicStop();
+    void MusicResume();
+    void MusicPlayFromBeginning();
+    bool IsCurrentMusicPlaying();
 }
