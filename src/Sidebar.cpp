@@ -30,7 +30,7 @@ Sidebar::Sidebar() {
     submit_button = Button(
         Rectangle{0, 0, 80, 40},
         Globals::pico_green,      // Default color
-        Globals::pico_green_light,  // Hover color
+        Globals::pico_green_dark,  // Hover color
         Globals::pico_green_dark,   // Pressed color
         1.0f, false, 10, true
     );
@@ -73,7 +73,7 @@ Sidebar::Sidebar() {
 }
 
 void Sidebar::Update() {
-    pause_button.Update();
+    pause_button.Update(MOUSE_BUTTON_LEFT);
     if (accuracy_percentage >= minimum_accuracy){
         submit_button.Update(MOUSE_BUTTON_LEFT);
     }

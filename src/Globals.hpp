@@ -27,7 +27,7 @@ namespace Globals {
     const Color pico_blue_dark = {29, 43, 83, 255};
     const Color pico_vineous = {126, 37, 83, 255};
     const Color pico_green_dark = {0, 135, 81, 255};
-    const Color pico_green_light = {0, 228, 54, 255};
+    //const Color pico_green_light = {0, 228, 54, 255};
     const Color pico_green_brown = {171, 82, 54, 255};
     const Color pico_swamp = {95, 87, 79, 255};
     const Color pico_gray = {194, 195, 199, 255};

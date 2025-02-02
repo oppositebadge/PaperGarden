@@ -29,7 +29,7 @@ MainMenu::MainMenu(
             60
         },
         Globals::pico_green,         // Default color
-        Globals::pico_green_light,   // Hover color
+        Globals::pico_green_dark,   // Hover color
         Globals::pico_green_dark,    // Pressed color
         1.0f, false, 5, true
     ),
