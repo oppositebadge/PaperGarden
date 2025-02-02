@@ -68,7 +68,6 @@ MainMenu::MainMenu(
 
     view_unlocks_button.BindOnPressed(std::bind(&MainMenu::OnViewUnlocksPressed, this));
     view_unlocks_button.BindOnHovered(Globals::PlaySoundOnButtonHovered);
-
 }
 
 MainMenu::~MainMenu() {

@@ -62,14 +62,29 @@ namespace Globals {
         }
         else {
             return Achievement{
-                {}, "",
+                "more than thirteen letters here, so can't be guessed",
+                {}, "", "",
                 true // final achievement
             };
         }
     }
 
+    int SecretId(std::string secret){
+        for (auto key_ach : Achievements){
+            if (secret == key_ach.second.secret_name){
+                return key_ach.first;
+            }
+        }
+        return -1;
+    }
+
+    Achievement AchievementFromId(int id){
+        return Achievements[id];
+    }
+
     void SetupAchievements(){
-        Achievements[0] = Achievement{{
+        Achievements[0] = Achievement{"flower",
+            {
                     {1009.24, 909.849},
                     {1235.52, 683.575},
                     {1009.24, 683.575},
@@ -98,10 +113,12 @@ namespace Globals {
                     {1169.33, 528.667},
                     {1089.33, 448.667},
             },
-            "clue_0"
+            "clue_0",
+            "solution_0"
         };
 
-        Achievements[1] = Achievement{{
+        Achievements[1] = Achievement{"heart",
+            {
                     {1172.67, 839.666},
                     {1332.67, 679.666},
                     {1012.67, 679.666},
@@ -130,10 +147,12 @@ namespace Globals {
                     {1255, 602.333},
                     {1175, 522.333},
             },
-            "clue_1"
+            "clue_1",
+            "solution_1"
         };
     
-        Achievements[2] = Achievement{{
+        Achievements[2] = Achievement{"sword",
+            {
                 {911, 680},
                 {1071, 840},
                 {1071, 520},
@@ -162,7 +181,8 @@ namespace Globals {
                 {1166, 445},
                 {1006, 445},
         },
-            "clue_2"
+            "clue_2",
+            "solution_2"
         };
     }
 
@@ -208,12 +228,14 @@ namespace Globals {
         LoadTextureGlobal("main_menu_background");
         LoadTextureGlobal("game_background");
 
-        LoadTextureGlobal("reference_0");
+        LoadTextureGlobal("solution_0");
+        LoadTextureGlobal("solution_1");
+        LoadTextureGlobal("solution_2");
 
         LoadTextureGlobal("clue_0");
         LoadTextureGlobal("clue_1");
         LoadTextureGlobal("clue_2");
-        LoadTextureGlobal("leaf_outline");
+        //LoadTextureGlobal("leaf_outline");
     }
 
     void LoadFonts(){

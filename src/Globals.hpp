@@ -90,4 +90,7 @@ namespace Globals {
     bool IsCurrentMusicPlaying();
 
     void PlaySoundOnButtonHovered(); // for binding to different buttons
+
+    int SecretId(std::string secret);
+    Achievement AchievementFromId(int id);
 }

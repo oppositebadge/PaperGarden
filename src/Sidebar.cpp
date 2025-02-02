@@ -77,6 +77,7 @@ void Sidebar::Draw(Texture2D reference) {
     DrawRectangleRoundedLinesEx(controls_rect, 0.05f, 5, border_width, border_color);
     DrawTextPro(
         Globals::fonts["pacifico"],
+        // pacifico font doesn't have % character
         TextFormat("Similarity: %i", accuracy_percentage),
         Vector2{controls_rect.x + controls_rect.width/2 - 160, controls_rect.y + controls_rect.height/2 - 10},
         Vector2{0,0},

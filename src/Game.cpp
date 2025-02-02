@@ -2,6 +2,7 @@
 #include "Constants.hpp"
 #include "Globals.hpp"
 #include "Render3D.hpp"
+#include "SecretsMenu.hpp"
 #include "Tangram.hpp"
 #include "MainMenu.hpp"
 #include "Sidebar.hpp"
@@ -22,9 +23,14 @@ Game::Game() : current_state(MENU) {
     // Initialize components
     tangram = std::make_unique<Tangram>(Globals::pixel_render->GetCameraCenter());
 
-    main_menu = std::make_unique<MainMenu>(center, Globals::textures["main_menu_background"], "   ", "Play", "Exit", "Garden", true, true);
+    main_menu = std::make_unique<MainMenu>(center, Globals::textures["main_menu_background"], "   ", "Play", "Exit", "Secrets", true, true);
     pause_menu = std::make_unique<MainMenu>(center, Globals::textures["main_menu_background"], "Paused", "Resume", "Main Menu", "None", true,  false);
     win_menu = std::make_unique<MainMenu>(center, Globals::textures["main_menu_background"], "Congratulations\n on completing the game!", "None", "Main Menu", "None", false, false);
+    secrets_menu = std::make_unique<SecretsMenu>(Globals::pixel_render->GetCameraCenter(), Globals::textures["main_menu_background"]);
+
+    secrets_menu->SetOnExitCallback([this]() {
+        current_state = MENU;
+    });
 
     sidebar = std::make_unique<Sidebar>();
     sidebar->SetOnPauseCallback([this]() {
@@ -120,11 +126,17 @@ void Game::Update() {
             break;
 
         case VIEWING_UNLOCKS:
+            /*
             render3d->Update();
             if (IsKeyPressed(KEY_ESCAPE)) {
                 current_state = PAUSED;
             }
             break;
+            */
+
+            secrets_menu->Update();
+            break;
+
         case WIN:
             win_menu->Update();
             break;
@@ -186,13 +198,21 @@ void Game::Draw() {
 
             break;
         case VIEWING_UNLOCKS:
-            
+
+            /*
             render3d->BeginDraw();
                 //DrawGrid(20, 10.0f);
                 DrawModel(Globals::models["garden"], Vector3{0,0,0}, 0.05, WHITE);
             render3d->EndDraw();
 
             break;
+            */
+
+
+            secrets_menu->Draw();
+            break;
+
+
         case WIN:
             win_menu->Draw();
             break;        
