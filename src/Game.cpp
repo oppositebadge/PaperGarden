@@ -16,8 +16,8 @@ Game::Game() : current_state(MENU) {
     current_goal = Globals::FirstMissingAchievemnt();
 
     Vector2 center = {
-        static_cast<float>(GetScreenWidth()) / 2,
-        static_cast<float>(GetScreenHeight()) / 2
+        static_cast<float>(AppConstants::RenderWidth) / 2,
+        static_cast<float>(AppConstants::RenderHeight) / 2
     };
     
     // Initialize components
@@ -99,6 +99,7 @@ void Game::Update() {
                 tangram->RotateTilesAtPoint(Globals::pixel_render->GetMouseWorldPos(), M_PI/4, true);
             }
 
+            /*
             if (IsKeyPressed(KEY_ENTER)){
                 auto points = tangram->GetAllPoints();
                 std::cout << "\nReference_" << tangram->GetPictureCount() << " = {\n";
@@ -109,6 +110,7 @@ void Game::Update() {
 
                 tangram->TakePicture();
             }
+            */
         
             {
                 int percent = tangram->RatePointsSimilarityFromCenter(current_goal.reference_points);
